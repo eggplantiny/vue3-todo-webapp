@@ -54,7 +54,7 @@ const todoStore = useTodoStore()
 const { setLoading } = useLoading()
 const { value: clock } = useClock()
 
-const user = authStore.user
+const user = computed(() => authStore.user)
 
 const todoList = computed<Todo[]>(() => todoStore.getAllList)
 
