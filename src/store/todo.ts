@@ -2,10 +2,10 @@ import useStorage from "@/hooks/useStorage"
 import delay from "@/utils/delay"
 import { nanoid } from "nanoid"
 import { defineStore } from "pinia"
+import { useLoading } from '@/store/useLoading'
 
 export interface Todo {
-  title: string;
-  content: string;
+  text: string;
   level: number;
   done?: boolean;
   createdAt?: Date;
@@ -19,12 +19,20 @@ interface State {
 const localStorage = useStorage().localStorage
 
 async function fetchData () {
+  const { setLoading } = useLoading()
+
+  setLoading(true)
   await delay(250)
+  setLoading(false)
   return localStorage.getItem<Todo[]>('todo')
 }
 
 async function saveData (todoList: Todo[]) {
-  await delay(200)
+  const { setLoading } = useLoading()
+
+  setLoading(true)
+  await delay(250)
+  setLoading(false)
   localStorage.setItem('todo', todoList)
 }
 
@@ -58,12 +66,17 @@ export const useTodoStore = defineStore('todo', {
     },
     async fetchTodo () {
       const targetData = await fetchData()
+
+      if (!targetData) {
+        return
+      }
+
       this.todoList.splice(0, this.todoList.length, ...targetData)
     }
   },
   getters: {
-    getDoneList: state => state.todoList.filter(x => x.done),
-    getNotDoneList: state => state.todoList.filter(x => !x.done),
-    getAllList: state => state.todoList
+    getDoneList: (state): Todo[] => state.todoList.filter(x => x.done),
+    getNotDoneList: (state): Todo[] => state.todoList.filter(x => !x.done),
+    getAllList: (state): Todo[] => state.todoList
   }
 })

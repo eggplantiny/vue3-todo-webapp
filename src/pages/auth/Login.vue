@@ -9,21 +9,13 @@
 </template>
 
 
-<script lang="ts">
+<script lang="ts" setup>
 import useKakaoLoginBtn from '@/hooks/components/useKakaoLoginBtn'
-import { ref } from "vue";
+import { ref } from 'vue'
+import { Nullable } from '@/types/base'
 
-export default {
-  setup () {
-    const btnRef = ref<HTMLElement>()
-
-    useKakaoLoginBtn(btnRef)
-
-    return {
-      btnRef
-    }
-  }
-}
+const btnRef = ref<Nullable<HTMLElement>>(null)
+useKakaoLoginBtn(btnRef)
 
 </script>
 

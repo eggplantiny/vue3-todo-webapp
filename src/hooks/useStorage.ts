@@ -1,11 +1,16 @@
+import { Nullable } from '@/types/base'
+
 const getItemClosure = (storage: Storage) => {
-  return function getItem<T>(key: string): T {
+  return function getItem<T>(key: string): Nullable<T> {
     let temp
     try {
-      temp = storage.getItem(key) || ''
+      temp = storage.getItem(key)
+      if (!temp) {
+        return null
+      }
+
       return JSON.parse(temp) as T
-    } catch (e) {
-      console.error(e)
+    } catch {
       return temp as unknown as T
     }
   }

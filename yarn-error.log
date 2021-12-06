@@ -1,30 +1,30 @@
 Arguments: 
-  /Users/we/.nvm/versions/node/v14.16.1/bin/node /Users/we/.nvm/versions/node/v14.16.1/bin/yarn add vue-create-ripple: ^0.3.1,
+  /Users/eggp/.nvm/versions/node/v17.1.0/bin/node /Users/eggp/.nvm/versions/node/v17.1.0/bin/yarn add vueuse
 
 PATH: 
-  /Users/we/.nvm/versions/node/v14.16.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/we/Development/workspace/eggplantiny/vue3-todo-webapp/node_modules/.bin
+  /Users/eggp/.nvm/versions/node/v17.1.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/eggp/dev/workspace/eggp/vue3-todo-webapp/node_modules/.bin
 
 Yarn version: 
-  1.22.10
+  1.22.17
 
 Node version: 
-  14.16.1
+  17.1.0
 
 Platform: 
-  darwin x64
+  darwin arm64
 
 Trace: 
-  Error: vue-create-ripple:: Invalid URI "vue-create-ripple:/"
-      at Request.module.exports.Request.init (/Users/we/.nvm/versions/node/v14.16.1/lib/node_modules/yarn/lib/cli.js:140750:31)
-      at new Request (/Users/we/.nvm/versions/node/v14.16.1/lib/node_modules/yarn/lib/cli.js:140604:8)
-      at request (/Users/we/.nvm/versions/node/v14.16.1/lib/node_modules/yarn/lib/cli.js:136804:10)
-      at RequestManager.execute (/Users/we/.nvm/versions/node/v14.16.1/lib/node_modules/yarn/lib/cli.js:67040:15)
-      at RequestManager.shiftQueue (/Users/we/.nvm/versions/node/v14.16.1/lib/node_modules/yarn/lib/cli.js:67078:10)
-      at /Users/we/.nvm/versions/node/v14.16.1/lib/node_modules/yarn/lib/cli.js:66747:13
-      at new Promise (<anonymous>)
-      at new F (/Users/we/.nvm/versions/node/v14.16.1/lib/node_modules/yarn/lib/cli.js:5301:28)
-      at RequestManager.request (/Users/we/.nvm/versions/node/v14.16.1/lib/node_modules/yarn/lib/cli.js:66745:19)
-      at NpmRegistry.<anonymous> (/Users/we/.nvm/versions/node/v14.16.1/lib/node_modules/yarn/lib/cli.js:31704:42)
+  Error: https://registry.yarnpkg.com/vueuse: Not found
+      at Request.params.callback [as _callback] (/Users/eggp/.nvm/versions/node/v17.1.0/lib/node_modules/yarn/lib/cli.js:67029:18)
+      at Request.self.callback (/Users/eggp/.nvm/versions/node/v17.1.0/lib/node_modules/yarn/lib/cli.js:140883:22)
+      at Request.emit (node:events:390:28)
+      at Request.<anonymous> (/Users/eggp/.nvm/versions/node/v17.1.0/lib/node_modules/yarn/lib/cli.js:141855:10)
+      at Request.emit (node:events:390:28)
+      at IncomingMessage.<anonymous> (/Users/eggp/.nvm/versions/node/v17.1.0/lib/node_modules/yarn/lib/cli.js:141777:12)
+      at Object.onceWrapper (node:events:509:28)
+      at IncomingMessage.emit (node:events:402:35)
+      at endReadableNT (node:internal/streams/readable:1340:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
 
 npm manifest: 
   {
@@ -36,9 +36,11 @@ npm manifest:
       "serve": "vite preview"
     },
     "dependencies": {
+      "moment": "^2.29.1",
       "nanoid": "^3.1.30",
       "pinia": "^2.0.6",
       "vue": "^3.2.16",
+      "vue-create-ripple": "^0.3.1",
       "vue-router": "4",
       "vue3-kakao-sdk": "^0.2.1"
     },
@@ -1148,6 +1150,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/modern-normalize/-/modern-normalize-1.1.0.tgz#da8e80140d9221426bd4f725c6e11283d34f90b7"
     integrity sha512-2lMlY1Yc1+CUy0gw4H95uNN7vjbpoED7NNRSBHE25nWfLBdmMzFCsPshlzbxHz+gYMcBEUN8V4pU16prcdPSgA==
   
+  moment@^2.29.1:
+    version "2.29.1"
+    resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
+    integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
+  
   nanoid@^3.1.30:
     version "3.1.30"
     resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.30.tgz#63f93cc548d2a113dc5dfbc63bfa09e2b9b64362"
@@ -1780,6 +1787,11 @@ Lockfile:
       vscode-languageserver-textdocument "^1.0.1"
       vscode-pug-languageservice "^0.27.24"
       vscode-typescript-languageservice "^0.27.25"
+  
+  vue-create-ripple@^0.3.1:
+    version "0.3.1"
+    resolved "https://registry.yarnpkg.com/vue-create-ripple/-/vue-create-ripple-0.3.1.tgz#9e0083cdc84deff8393bda262fdc16c54e9b6f9e"
+    integrity sha512-rgMpGODs/ZG/SNIJzLj+evFCfOvIObScr7Acy3Kl3IgOFbc6w0E1baE98kb0y870VH0FePhtXgcb1WGviQC+/Q==
   
   vue-demi@*:
     version "0.12.1"

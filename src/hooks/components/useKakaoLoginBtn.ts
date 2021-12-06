@@ -3,9 +3,10 @@ import { onMounted, Ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useKakao } from 'vue3-kakao-sdk'
 import { useAuthStore } from '@/store/auth'
+import { Nullable } from '@/types/base'
 
 export default function useKakaoLoginBtn (
-  btnRef: Ref<HTMLElement>
+  btnRef: Ref<Nullable<HTMLElement>>
 ) {
   const { kakao, initialize } = useKakao()
   const authStore = useAuthStore()
