@@ -10,12 +10,17 @@
       <p>
         {{ clock }} 현재
       </p>
-      <p v-if="!haveNoItem">
-        <template v-if="notDoneList.length > 0">
-          {{ notDoneList.length }} 개 의 작업이 남았어요!
+      <p>
+        <template v-if="!haveNoItem">
+          <template v-if="notDoneList.length > 0">
+            {{ notDoneList.length }} 개 의 <span class="font-bold text-gray-700">작업</span>이 남았어요!
+          </template>
+          <template v-else>
+            아주 훌륭한 <span class="text-indigo-500 font-bold">하루</span>를 보내시군요 🥰
+          </template>
         </template>
         <template v-else>
-          아주 훌륭한 하루를 보내시군요 🥰
+          아직 <span class="font-bold">작업</span>을 등록하지 않았어요.
         </template>
       </p>
     </div>
