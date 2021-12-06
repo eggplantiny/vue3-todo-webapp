@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+// buttons
+.btn-primary {
+  @apply bg-indigo-500 hover:bg-indigo-700;
+}
+
+.btn-success {
+  @apply bg-green-500 hover:bg-green-700;
+}
+
+.btn-error {
+  @apply bg-red-500 hover:bg-red-700;
+}
+
+.btn-warning {
+  @apply bg-yellow-500 hover:bg-yellow-700;
+}
+
+.card {
+  @apply w-full group px-4 py-4 rounded transition-all hover:text-white hover:shadow;
+}
+
+// card
+.todo-card {
+  @apply hover:bg-blue-800;
+
+  &.done {
+   @apply hover:bg-green-800;
+  }
+}
+
+.none-card {
+  @apply hover:bg-indigo-500 text-black text-center;
+}

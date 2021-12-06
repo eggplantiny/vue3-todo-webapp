@@ -13,24 +13,24 @@
     </div>
   </section>
   <section class="px-4 mt-4">
-    <div class="flex justify-between">
-      <span class="font-bold text-2xl">TODO</span>
-      <Button @click="events.onClickSave">
-        저장
-      </Button>
-    </div>
-    <div class="mt-2 w-full">
-      <Input
-        v-model="text"
-        @keydown.enter.prevent="events.onClickSave"
-      />
-    </div>
+    <InputCard
+      @save="events.onClickSave"
+    />
   </section>
   <section class="px-4 mt-4">
     <List>
       <template v-for="(item, index) in todoList" :key="index">
         <ListItem>
-          <TodoCard :todo="item" @delete="events.onClickDelete"/>
+          <TodoCard
+            :todo="item"
+            @delete="events.onClickDelete"
+            @toggle="events.onClickToggle"
+          />
+        </ListItem>
+      </template>
+      <template v-if="todoList.length === 0">
+        <ListItem>
+          <NoneCard />
         </ListItem>
       </template>
     </List>
@@ -41,13 +41,13 @@
 import { computed, onBeforeMount, ref } from 'vue'
 import { useAuthStore } from '@/store/auth'
 import { useTodoStore, Todo } from '@/store/todo'
-import List from '@/components/atoms/List.vue'
-import ListItem from '@/components/atoms/ListItem.vue'
-import Input from '@/components/atoms/Input.vue'
 import { useLoading } from '@/store/useLoading'
 import { useClock } from '@/hooks/useClock'
-import Button from '@/components/atoms/Button.vue'
-import TodoCard from '@/components/molecules/TodoCard.vue'
+import List from '@/components/atoms/List.vue'
+import ListItem from '@/components/atoms/ListItem.vue'
+import TodoCard from '@/components/molecules/Cards/TodoCard.vue'
+import InputCard from '@/components/molecules/Cards/InputCard.vue'
+import NoneCard from '@/components/molecules/Cards/NoneCard.vue'
 
 const authStore = useAuthStore()
 const todoStore = useTodoStore()
@@ -58,8 +58,6 @@ const user = authStore.user
 
 const todoList = computed<Todo[]>(() => todoStore.getAllList)
 
-const text = ref<string>('')
-
 onBeforeMount(async () => {
   setLoading(true)
   await todoStore.fetchTodo()
@@ -67,13 +65,18 @@ onBeforeMount(async () => {
 })
 
 const events = {
-  async onClickSave () {
-    const t = text.value
-    text.value = ''
-    await todoStore.addTodo({ text: t, level: 0 })
+  async onClickSave (text: string) {
+    if (text.length === 0) {
+      window.alert('메시지를 입력 해 주세요 🥲')
+      return
+    }
+    await todoStore.addTodo({ text, level: 0 })
   },
   async onClickDelete (todo: Todo) {
     await todoStore.removeTodo(todo)
+  },
+  async onClickToggle (todo: Todo) {
+    await todoStore.modifyTodo({ ...todo, done: !todo.done })
   }
 }
 </script>

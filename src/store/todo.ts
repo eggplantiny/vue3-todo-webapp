@@ -47,22 +47,22 @@ export const useTodoStore = defineStore('todo', {
       const done = false
       const todo: Todo = { ...params, id, createdAt, done }
       this.todoList.push(todo)
-      await saveData([...this.todoList, todo])
+      await saveData(this.todoList)
     },
-    async removeTodo (params: Todo) {
-      const targetData = this.todoList.filter(x => x.id !== params.id)
+    async removeTodo (todo: Todo) {
+      const targetData = this.todoList.filter(x => x.id !== todo.id)
       await saveData(targetData)
       this.todoList.splice(0, this.todoList.length, ...targetData)
     },
-    async modifyTodo (params: Todo) {
-      const index = this.todoList.findIndex(x => x.id === params.id)
+    async modifyTodo (todo: Todo) {
+      const index = this.todoList.findIndex(x => x.id === todo.id)
 
       if (index < 0) {
-        throw new Error(`Can't find todo item [${params.id}]`)
+        throw new Error(`Can't find todo item [${todo.id}]`)
       }
 
-      const targetData = this.todoList.splice(index, 1, params)
-      await saveData(targetData)
+      this.todoList.splice(index, 1, todo)
+      await saveData(this.todoList)
     },
     async fetchTodo () {
       const targetData = await fetchData()
@@ -71,7 +71,7 @@ export const useTodoStore = defineStore('todo', {
         return
       }
 
-      this.todoList.splice(0, this.todoList.length, ...targetData)
+      this.todoList = targetData
     }
   },
   getters: {

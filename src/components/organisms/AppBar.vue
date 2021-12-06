@@ -29,8 +29,8 @@ const authStore = useAuthStore()
 const route = useRoute()
 const title = computed(() => route.meta.title || 'Home')
 
-const user = authStore.user
-const isAuthenticated = authStore.isAuthenticated
+const user = computed(() => authStore.user)
+const isAuthenticated = computed(() => authStore.isAuthenticated)
 </script>
 
 <style scoped lang="scss">

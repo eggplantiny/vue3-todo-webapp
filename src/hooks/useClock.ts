@@ -2,9 +2,10 @@ import moment from 'moment'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { Pausable, useIntervalFn } from '@vueuse/core'
 import { Nullable } from '@/types/base'
+import { dateString } from '@/utils/stringFormat'
 
 function getCurrentTime () {
-  return moment().format('YYYY년 MM월 DD일 hh시 mm분 ss초')
+  return dateString(new Date(), 'YYYY년 MM월 DD일 hh시 mm분 ss초')
 }
 
 export function useClock () {

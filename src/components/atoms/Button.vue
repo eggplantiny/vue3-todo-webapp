@@ -1,8 +1,8 @@
 <template>
   <button
-    class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+    class="text-white font-bold py-2 px-4 rounded transition-colors"
     :style="[computedWidth, computedHeight]"
-    v-bind:class="$attrs.class"
+    v-bind="$attrs"
   >
     <slot />
   </button>

@@ -16,7 +16,8 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: '',
-        component: Home
+        component: Home,
+        meta: { title: 'Todo' }
       }
     ]
   },
