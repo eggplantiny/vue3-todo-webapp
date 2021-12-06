@@ -1,10 +1,10 @@
-import {computed, ref} from "vue"
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useKakao } from 'vue3-kakao-sdk'
 import { Nullable } from '@/types/base'
 import { KakaoUser } from '@/types/kakao'
 
-interface User {
+export interface User {
   nickName: Nullable<string>;
   profileImage: Nullable<string>;
   thumbnailImage: Nullable<string>;

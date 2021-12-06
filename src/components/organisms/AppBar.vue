@@ -35,7 +35,3 @@ const isAuthenticated = authStore.isAuthenticated
 
 <style scoped lang="scss">
 </style>
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security
