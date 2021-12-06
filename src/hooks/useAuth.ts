@@ -1,7 +1,7 @@
 import { useRouter } from 'vue-router'
 import { useKakao } from 'vue3-kakao-sdk'
 import { onBeforeMount, ref } from 'vue'
-import {useAuthStore} from "@/store/auth";
+import {useAuthStore} from '@/store/auth'
 
 const kakaoAccessToken = localStorage.getItem('KAKAO_ACCESS_TOKEN')
 

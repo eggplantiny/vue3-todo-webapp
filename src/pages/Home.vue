@@ -42,11 +42,21 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, onBeforeMount } from 'vue'
 import { useAuthStore } from '@/store/auth'
+import { useTodoStore, Todo } from '@/store/todo'
 
 const authStore = useAuthStore()
+const todoStore = useTodoStore()
 
 const user = authStore.user
+
+const todoList = computed<Todo[]>(() => todoStore.getAllList())
+
+onBeforeMount(async () => {
+  await todoStore.fetchTodo()
+
+})
 
 const tempDataList: { title: string, content: string } = [
   { title: '의미 없는 데이터 1', content: '모든 국민은 인간다운 생활을 할 권리를 가진다. 형사피고인은 유죄의 판결이 확정될 때까지는 무죄로 추정된다. 국회는 법률에 저촉되지 아니하는 범위안에서 의사와 내부규율에 관한 규칙을 제정할 수 있다.' },

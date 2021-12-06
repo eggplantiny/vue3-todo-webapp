@@ -1,8 +1,8 @@
 
 import { onMounted, Ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useKakao } from 'vue3-kakao-sdk'
-import { useAuthStore } from "@/store/auth"
-import {useRouter} from "vue-router";
+import { useAuthStore } from '@/store/auth'
 
 export default function useKakaoLoginBtn (
   btnRef: Ref<HTMLElement>
@@ -16,7 +16,6 @@ export default function useKakaoLoginBtn (
 
     if (!btnRef.value) {
       return
-
     }
 
     kakao.value.Auth.createLoginButton({

@@ -9,13 +9,21 @@
 </template>
 
 
-<script lang="ts" setup>
+<script lang="ts">
 import useKakaoLoginBtn from '@/hooks/components/useKakaoLoginBtn'
 import { ref } from "vue";
 
-const btnRef = ref<HTMLElement>()
+export default {
+  setup () {
+    const btnRef = ref<HTMLElement>()
 
-useKakaoLoginBtn(btnRef)
+    useKakaoLoginBtn(btnRef)
+
+    return {
+      btnRef
+    }
+  }
+}
 
 </script>
 
