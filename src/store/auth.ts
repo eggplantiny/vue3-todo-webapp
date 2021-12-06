@@ -5,16 +5,16 @@ import { Nullable } from '@/types/base'
 import { KakaoUser } from '@/types/kakao'
 
 export interface User {
-  nickName: Nullable<string>;
-  profileImage: Nullable<string>;
-  thumbnailImage: Nullable<string>;
+  nickName?: string;
+  profileImage?: string;
+  thumbnailImage?: string;
 }
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User>({
-    nickName: null,
-    profileImage: null,
-    thumbnailImage: null
+    nickName: '',
+    profileImage: '',
+    thumbnailImage: ''
   })
 
   const isAuthenticated = ref(false)

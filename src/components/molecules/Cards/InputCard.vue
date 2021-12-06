@@ -10,7 +10,6 @@
           type="checkbox"
           class="form-checkbox"
           checked
-          @input="emits('toggle', checked)"
         />
         <span class="ml-2">모든 항목 보기</span>
       </label>
