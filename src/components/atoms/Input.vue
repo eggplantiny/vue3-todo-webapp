@@ -14,23 +14,16 @@
 import { useVModel } from '@vueuse/core'
 import { PropType } from 'vue'
 
-const props = defineProps({
-  label: {
-    type: String,
-    default: ''
-  },
-  type: {
-    type: String,
-    default: 'text'
-  },
-  modelValue: {
-    type: [String, Number] as PropType<String|number>,
-    default: ''
-  },
-  placeholder: {
-    type: String,
-    default: ''
-  }
+const props = withDefaults(defineProps<{
+  label?: string,
+  type?: string,
+  modelValue?: string | number,
+  placeholder?: string
+}>(), {
+  label: '',
+  type: 'text',
+  modelValue: '',
+  placeholder: '입력해주세요 🙂'
 })
 
 const emit = defineEmits(['update:modelValue'])

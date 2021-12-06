@@ -1,12 +1,26 @@
 <template>
   <div class="flex justify-between">
-    <span class="font-bold text-2xl">TODO</span>
-    <Button
-      class="bg-indigo-500 hover:bg-indigo-700"
-      @click="save"
-    >
-      저장
-    </Button>
+    <span class="font-bold text-2xl">
+      TODO
+    </span>
+    <div class="flex">
+      <label class="inline-flex items-center mr-2">
+        <input
+          v-model="checked"
+          type="checkbox"
+          class="form-checkbox"
+          checked
+          @input="emits('toggle', checked)"
+        />
+        <span class="ml-2">모든 항목 보기</span>
+      </label>
+      <Button
+        class="bg-indigo-500 hover:bg-indigo-700"
+        @click="save"
+      >
+        저장
+      </Button>
+    </div>
   </div>
   <div class="mt-2 w-full">
     <Input
@@ -20,8 +34,12 @@
 import Input from '@/components/atoms/Input.vue'
 import Button from '@/components/atoms/Button.vue'
 import { ref } from 'vue'
+import { useVModel } from '@vueuse/core'
 
-const emits = defineEmits(['save'])
+const props = defineProps<{ showAll: boolean }>()
+
+const emits = defineEmits(['save', 'update:showAll'])
+const checked = useVModel(props, 'showAll', emits)
 
 const text = ref<string>('')
 

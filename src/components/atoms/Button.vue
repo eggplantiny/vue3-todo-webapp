@@ -13,16 +13,10 @@ import { computed, PropType } from 'vue'
 import { generateBoxSize } from '@/utils/cssUtils'
 import { Nullable } from '@/types/base'
 
-const props = defineProps({
-  width: {
-    type: Object as PropType<Nullable<number>>,
-    default: null
-  },
-  height: {
-    type: Object as PropType<Nullable<number>>,
-    default: null
-  }
-})
+const props = defineProps<{
+  width?: number,
+  height?: number
+}>()
 
 const computedWidth = computed(() => props.width ? generateBoxSize(props.width, 'px', 'width') : '')
 const computedHeight = computed(() => props.height ? generateBoxSize(props.height, 'px', 'height') : '')
