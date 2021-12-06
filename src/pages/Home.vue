@@ -38,11 +38,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount } from 'vue'
 import { useAuthStore } from '@/store/auth'
 import { useTodoStore, Todo } from '@/store/todo'
-import { useLoading } from '@/store/useLoading'
 import { useClock } from '@/hooks/useClock'
+
 import List from '@/components/atoms/List.vue'
 import ListItem from '@/components/atoms/ListItem.vue'
 import TodoCard from '@/components/molecules/Cards/TodoCard.vue'
@@ -51,32 +51,35 @@ import NoneCard from '@/components/molecules/Cards/NoneCard.vue'
 
 const authStore = useAuthStore()
 const todoStore = useTodoStore()
-const { setLoading } = useLoading()
 const { value: clock } = useClock()
 
 const user = computed(() => authStore.user)
 
 const todoList = computed<Todo[]>(() => todoStore.getAllList)
 
-onBeforeMount(async () => {
-  setLoading(true)
-  await todoStore.fetchTodo()
-  setLoading(false)
+onBeforeMount(() => {
+  todoStore.fetchTodo()
 })
 
 const events = {
-  async onClickSave (text: string) {
+  onClickSave (text: string) {
     if (text.length === 0) {
       window.alert('메시지를 입력 해 주세요 🥲')
       return
     }
-    await todoStore.addTodo({ text, level: 0 })
+    todoStore.addTodo({ text, level: 0 })
   },
-  async onClickDelete (todo: Todo) {
-    await todoStore.removeTodo(todo)
+  onClickDelete (todo: Todo) {
+    const confirmed = window.confirm('정말로 항목을 지우실건가요? 🧐')
+
+    if (!confirmed) {
+      return
+    }
+
+    todoStore.removeTodo(todo)
   },
-  async onClickToggle (todo: Todo) {
-    await todoStore.modifyTodo({ ...todo, done: !todo.done })
+  onClickToggle (todo: Todo) {
+    todoStore.modifyTodo({ ...todo, done: !todo.done })
   }
 }
 </script>

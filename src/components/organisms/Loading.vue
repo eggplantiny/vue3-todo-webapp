@@ -19,6 +19,7 @@ import { useLoading } from '@/store/useLoading'
 import { computed } from 'vue'
 
 const loading = useLoading()
+
 const value = computed(() => loading.value)
 const computedClass = computed(() => [loading.transparent ? 'bg-transparent' : 'bg-white'])
 </script>

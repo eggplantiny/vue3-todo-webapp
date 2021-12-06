@@ -1,20 +1,19 @@
-import moment from 'moment'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { Pausable, useIntervalFn } from '@vueuse/core'
 import { Nullable } from '@/types/base'
 import { dateString } from '@/utils/stringFormat'
 
-function getCurrentTime () {
-  return dateString(new Date(), 'YYYY년 MM월 DD일 hh시 mm분 ss초')
+function getCurrentTime (format: string) {
+  return dateString(new Date(),format)
 }
 
-export function useClock () {
-  const value = ref<string>(getCurrentTime())
+export function useClock (format: string = 'YYYY년 MM월 DD일 hh시 mm분') {
+  const value = ref<string>(getCurrentTime(format))
   let pausable: Nullable<Pausable> = null
 
   onMounted(() => {
     useIntervalFn(() => {
-      value.value = getCurrentTime()
+      value.value = getCurrentTime(format)
     }, 1000)
   })
 

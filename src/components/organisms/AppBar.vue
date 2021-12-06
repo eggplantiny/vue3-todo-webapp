@@ -25,10 +25,9 @@ import { computed } from 'vue'
 import { useAuthStore } from '@/store/auth'
 
 const authStore = useAuthStore()
-
 const route = useRoute()
-const title = computed(() => route.meta.title || 'Home')
 
+const title = computed(() => route.meta.title || 'Home')
 const user = computed(() => authStore.user)
 const isAuthenticated = computed(() => authStore.isAuthenticated)
 </script>

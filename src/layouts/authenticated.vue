@@ -1,11 +1,11 @@
 <template>
   <template v-if="!loading">
-    <div class="relative mx-auto max-w-xl">
+    <div class="relative">
       <app-bar
         class="sticky top-0 left-0 right-0 bg-white z-10 transition-shadow"
         :class="isScrolled ? 'shadow-lg' : ''"
       />
-      <main>
+      <main class="mx-auto max-w-xl">
         <router-view />
       </main>
     </div>
