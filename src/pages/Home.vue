@@ -81,6 +81,8 @@ watch(isAuthenticated, authenticated => {
   if (authenticated) {
     todoStore.fetchTodo(user.value.userId)
   }
+}, {
+  immediate: true
 })
 
 const events = {
