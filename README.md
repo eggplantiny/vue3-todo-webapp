@@ -1,6 +1,7 @@
 # Vue3 Todo Web Application
 
-A Vue3 Todo Web Application with typescript, Vue3, Pinia, Tailwindcss
+About
+A Vue3 Todo Web Application with typescript, Vue3, Pinia, Tailwindcss, firebase and etc... 😎
 
 # How to run?
 

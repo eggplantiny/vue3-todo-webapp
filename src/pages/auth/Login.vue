@@ -7,7 +7,7 @@
       <List>
         <template v-for="(provider, index) in loginProviderList" :key="index">
           <ListItem>
-            <Button class="btn-success flex items-center mx-auto w-full" :class="[provider.color]" @click="events.onClickLogin(provider.provider)">
+            <Button class="btn-success flex items-center mx-auto w-full" :class="[provider.color]" @click="events.onClickLogin(provider.provider, provider.name)">
               <img class="rounded-full w-8 h-8 mr-4" :src="provider.icon" :alt="provider.name"> Login with {{ provider.name }}
             </Button>
           </ListItem>
@@ -29,9 +29,10 @@ import { useRouter } from 'vue-router'
 import Button from '@/components/atoms/Button.vue'
 import List from '@/components/atoms/List.vue'
 import ListItem from '@/components/atoms/ListItem.vue'
+import { Provider } from '@/types/auth'
 
 interface LoginProvider {
-  name: string;
+  name: Provider;
   color: string;
   icon: string;
   provider: AuthProvider;
@@ -59,8 +60,9 @@ const loginProviderList: LoginProvider[] = [
 ]
 
 const events = {
-  async onClickLogin (provider: AuthProvider) {
-    await loginWithFirebase(provider)
+  async onClickLogin (provider: AuthProvider, name: Provider) {
+    await loginWithFirebase(provider, name)
+    localStorage.setItem('provider', name)
     await router.push('/')
   }
 }

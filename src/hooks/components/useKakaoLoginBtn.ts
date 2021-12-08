@@ -26,6 +26,7 @@ export default function useKakaoLoginBtn (
 
         kakao.value.Auth.setAccessToken(accessToken)
         localStorage.setItem('KAKAO_ACCESS_TOKEN', accessToken)
+        localStorage.setItem('provider', 'Kakao')
 
         authStore.fetchKakaoUser().then((user) => {
           router.push('/')

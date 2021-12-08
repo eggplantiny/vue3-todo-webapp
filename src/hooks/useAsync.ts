@@ -1,7 +1,19 @@
 import { useLoading } from '@/store/useLoading'
 import { Nullable } from '@/types/base'
 
-export default async function useAsync <T> (asyncFunction: () => Promise<T>): Promise<T> {
+interface Options {
+  useAlert: boolean
+}
+
+const defaultOptions: Options = {
+  useAlert: true
+}
+
+export default async function useAsync <T> (
+  asyncFunction: () => Promise<T>,
+  options: Partial<Options> = {}
+): Promise<T> {
+  const { useAlert } = { ...defaultOptions, ...options }
   const { setLoading } = useLoading()
 
   try {
@@ -14,7 +26,10 @@ export default async function useAsync <T> (asyncFunction: () => Promise<T>): Pr
     } else if (e instanceof Error) {
       message = e.message
     }
-    window.alert(message)
+
+    if (useAlert) {
+      window.alert(message)
+    }
     throw e
   } finally {
     setLoading(false)

@@ -4,10 +4,10 @@ import { useKakao } from 'vue3-kakao-sdk'
 import { KakaoUser } from '@/types/kakao'
 import { Provider } from '@/types/auth'
 import { Nullable } from '@/types/base'
-import { AuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
+import { AuthProvider, browserSessionPersistence, User, getAuth, signInWithPopup } from 'firebase/auth'
 import useAsync from '@/hooks/useAsync'
 
-export interface User {
+export interface IUser {
   nickName?: string;
   profileImage?: string;
   thumbnailImage?: string;
@@ -15,7 +15,7 @@ export interface User {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User>({
+  const user = ref<IUser>({
     nickName: '',
     profileImage: '',
     thumbnailImage: '',
@@ -25,24 +25,32 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = ref(false)
   const provider = ref<Nullable<Provider>>(null)
 
-  function saveUserToStore (_user: KakaoUser) {
-    user.value.nickName = _user.nickname
-    user.value.profileImage = _user.profile_image
-    user.value.thumbnailImage = _user.thumbnail_image
+  function saveUserToStore (_user: KakaoUser | User, providedBy: Provider) {
+    if (providedBy === 'Kakao') {
+      _user = _user as KakaoUser
+      user.value.nickName = _user.nickname
+      user.value.profileImage = _user.profile_image
+      user.value.thumbnailImage = _user.thumbnail_image
+    } else {
+      _user = _user as User
+      user.value.userId = _user.uid
+      user.value.profileImage = _user.photoURL ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbADKB5OER8mK9MCrkCBFJeXc2pZCGucLNxA&usqp=CAU'
+      user.value.thumbnailImage = _user.photoURL ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbADKB5OER8mK9MCrkCBFJeXc2pZCGucLNxA&usqp=CAU'
+      user.value.nickName = _user.displayName ?? 'Anonymous'
+    }
+
     isAuthenticated.value = true
-    provider.value = 'Kakao'
+    provider.value = providedBy
   }
 
-  async function loginWithFirebase (provider: AuthProvider) {
+  async function loginWithFirebase (provider: AuthProvider, providedBy: Provider) {
     const auth = getAuth()
+    const userCredential = await useAsync(async () => {
+      await auth.setPersistence(browserSessionPersistence)
+      return await signInWithPopup(auth, provider)
+    })
 
-    const userCredential = await useAsync(() => signInWithPopup(auth, provider))
-
-    user.value.userId = userCredential.user.uid
-    user.value.profileImage = userCredential.user.photoURL ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbADKB5OER8mK9MCrkCBFJeXc2pZCGucLNxA&usqp=CAU'
-    user.value.thumbnailImage = userCredential.user.photoURL ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbADKB5OER8mK9MCrkCBFJeXc2pZCGucLNxA&usqp=CAU'
-    user.value.nickName = userCredential.user.displayName ?? 'Anonymous'
-    isAuthenticated.value = true
+    saveUserToStore(userCredential.user, providedBy)
   }
 
   function fetchKakaoUser () {
@@ -52,7 +60,7 @@ export const useAuthStore = defineStore('auth', () => {
       kakao.value.API.request({
         url: '/v2/user/me',
         success (success) {
-          saveUserToStore(success.properties)
+          saveUserToStore(success.properties, 'Kakao')
           resolve(success.properties)
         },
         fail (error) {
@@ -66,6 +74,7 @@ export const useAuthStore = defineStore('auth', () => {
     user,
     provider,
     isAuthenticated,
+    saveUserToStore,
     fetchKakaoUser,
     loginWithFirebase
   }
