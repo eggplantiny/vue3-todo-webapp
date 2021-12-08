@@ -12,7 +12,7 @@
             leave-from="opacity-100"
             leave-to="opacity-0"
           >
-            <DialogOverlay class="fixed inset-0" />
+            <DialogOverlay class="fixed bg-gray-700 opacity-50 inset-0" />
           </TransitionChild>
 
           <span class="inline-block h-screen align-middle" aria-hidden="true">

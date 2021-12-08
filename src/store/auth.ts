@@ -6,6 +6,7 @@ import { Provider } from '@/types/auth'
 import { Nullable } from '@/types/base'
 import { AuthProvider, browserSessionPersistence, User, getAuth, signInWithPopup } from 'firebase/auth'
 import useAsync from '@/hooks/useAsync'
+import { useRouter } from 'vue-router'
 
 export interface IUser {
   nickName?: string;
@@ -28,9 +29,9 @@ export const useAuthStore = defineStore('auth', () => {
   function saveUserToStore (_user: KakaoUser | User, providedBy: Provider) {
     if (providedBy === 'Kakao') {
       _user = _user as KakaoUser
-      user.value.nickName = _user.nickname
-      user.value.profileImage = _user.profile_image
-      user.value.thumbnailImage = _user.thumbnail_image
+      user.value.nickName = _user.nickname ?? ''
+      user.value.profileImage = _user.profile_image ?? ''
+      user.value.thumbnailImage = _user.thumbnail_image ?? ''
     } else {
       _user = _user as User
       user.value.userId = _user.uid
@@ -70,10 +71,17 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
+  async function logout () {
+    saveUserToStore({} as KakaoUser, 'Kakao')
+    await getAuth().signOut()
+    localStorage.clear()
+  }
+
   return {
     user,
     provider,
     isAuthenticated,
+    logout,
     saveUserToStore,
     fetchKakaoUser,
     loginWithFirebase
