@@ -1,6 +1,6 @@
 import { useRouter } from 'vue-router'
 import { useKakao } from 'vue3-kakao-sdk'
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount } from 'vue'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useAuthStore } from '@/store/auth'
 import { useLoading } from '@/store/useLoading'
@@ -19,7 +19,7 @@ export default function useAuth() {
   const { value } = useLoading()
 
   function getPersistenceFirebaseUser (providedBy: Provider): Promise<boolean> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const auth = getAuth()
       onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -31,7 +31,7 @@ export default function useAuth() {
     })
   }
 
-  async function loginWithKakao () {
+  async function getPersistenceKakaoUser () {
     await initialize()
     if (kakaoAccessToken && kakaoAccessToken.length > 0) {
       kakao.value.Auth.setAccessToken(kakaoAccessToken)
@@ -50,10 +50,10 @@ export default function useAuth() {
     let success = false
     try {
       if (providedBy === 'Kakao') {
-        await useAsync(() => loginWithKakao(), { useAlert: false })
+        await useAsync(() => getPersistenceKakaoUser(), { useAlert: false })
         success = true
       } else if (providedBy === 'Google' || providedBy === 'Github') {
-        success = await useAsync(() => getPersistenceFirebaseUser(providedBy))
+        success = await useAsync(() => getPersistenceFirebaseUser(providedBy), { useAlert: false })
       }
 
       if (!success) {

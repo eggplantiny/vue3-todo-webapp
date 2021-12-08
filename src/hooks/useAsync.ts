@@ -1,5 +1,4 @@
 import { useLoading } from '@/store/useLoading'
-import { Nullable } from '@/types/base'
 
 interface Options {
   useAlert: boolean

@@ -1,8 +1,6 @@
-import useStorage from "@/hooks/useStorage"
-import delay from "@/utils/delay"
 import { nanoid } from "nanoid"
 import { defineStore } from "pinia"
-import { useLoading } from '@/store/useLoading'
+import { fetchData, saveData } from '@/utils/api'
 
 export interface Todo {
   text: string;
@@ -16,45 +14,31 @@ interface State {
   todoList: Todo[]
 }
 
-const localStorage = useStorage().localStorage
-
-async function fetchData () {
-  const { setLoading } = useLoading()
-
-  setLoading(true)
-  await delay(250)
-  setLoading(false)
-  return localStorage.getItem<Todo[]>('todo')
-}
-
-async function saveData (todoList: Todo[]) {
-  const { setLoading } = useLoading()
-
-  setLoading(true)
-  await delay(250)
-  setLoading(false)
-  localStorage.setItem('todo', todoList)
-}
-
 export const useTodoStore = defineStore('todo', {
   state: (): State => ({
     todoList: []
   }),
   actions: {
-    async addTodo (params: Todo) {
+    async addTodo (params: Todo, userId?: string) {
       const id = nanoid()
       const createdAt = new Date()
       const done = false
       const todo: Todo = { ...params, id, createdAt, done }
+
       this.todoList.push(todo)
-      await saveData(this.todoList)
+      await saveData(this.todoList, userId)
     },
-    async removeTodo (todo: Todo) {
-      const targetData = this.todoList.filter(x => x.id !== todo.id)
-      await saveData(targetData)
-      this.todoList.splice(0, this.todoList.length, ...targetData)
+    async removeTodo (todo: Todo, userId?: string) {
+      const index = this.todoList.findIndex(x => x.id === todo.id)
+
+      if (index < 0) {
+        throw new Error(`Can't find todo item [${todo.id}]`)
+      }
+
+      this.todoList.splice(index, 1)
+      await saveData(this.todoList, userId)
     },
-    async modifyTodo (todo: Todo) {
+    async modifyTodo (todo: Todo, userId?: string) {
       const index = this.todoList.findIndex(x => x.id === todo.id)
 
       if (index < 0) {
@@ -62,15 +46,10 @@ export const useTodoStore = defineStore('todo', {
       }
 
       this.todoList.splice(index, 1, todo)
-      await saveData(this.todoList)
+      await saveData(this.todoList, userId)
     },
-    async fetchTodo () {
-      const targetData = await fetchData()
-
-      if (!targetData) {
-        return
-      }
-
+    async fetchTodo (userId?: string) {
+      const targetData = await fetchData(userId)
       this.todoList = targetData
     }
   },
