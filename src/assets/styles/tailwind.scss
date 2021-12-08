@@ -19,6 +19,14 @@
   @apply bg-yellow-500 hover:bg-yellow-700;
 }
 
+.btn-login-google {
+  @apply bg-indigo-500 hover:bg-indigo-700;
+}
+
+.btn-login-github {
+  @apply bg-black hover:bg-gray-700 text-white;
+}
+
 .card {
   @apply w-full group px-4 py-4 rounded transition-all hover:text-white hover:shadow;
 }

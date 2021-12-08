@@ -1,7 +1,7 @@
 import { useLoading } from '@/store/useLoading'
 import { Nullable } from '@/types/base'
 
-export default async function useAsync <T> (asyncFunction: () => Promise<T>): Promise<Nullable<T>> {
+export default async function useAsync <T> (asyncFunction: () => Promise<T>): Promise<T> {
   const { setLoading } = useLoading()
 
   try {
@@ -15,9 +15,8 @@ export default async function useAsync <T> (asyncFunction: () => Promise<T>): Pr
       message = e.message
     }
     window.alert(message)
+    throw e
   } finally {
     setLoading(false)
   }
-
-  return null
 }
