@@ -7,7 +7,7 @@ function getCurrentTime (format: string) {
   return dateString(new Date(),format)
 }
 
-export function useClock (format: string = 'MM월 DD일 hh시 mm분') {
+export function useClock (format: string = 'MMMM D dddd hh:mm') {
   const value = ref<string>(getCurrentTime(format))
   let pausable: Nullable<Pausable> = null
 

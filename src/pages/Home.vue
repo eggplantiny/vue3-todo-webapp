@@ -4,10 +4,10 @@
       <section class="px-4">
         <div class="text-2xl">
           <p>
-            <span class="font-bold text-indigo-500">{{ user.nickName }}</span>님
+            Hello
           </p>
-          <p>안녕하세요 😊</p>
-          <p>{{ clock }} 현재</p>
+          <p><span class="font-bold text-indigo-500">{{ user.nickName }}</span> 😊</p>
+          <p>{{ clock }}</p>
           <p v-html="todayMessage" />
         </div>
       </section>
@@ -64,9 +64,9 @@ const todoList = computed<Todo[]>(() => checked.value ? todoStore.getAllList : t
 const notDoneList = computed<Todo[]>(() => todoStore.getNotDoneList)
 const haveNoItem = computed<boolean>(() => todoStore.getAllList.length === 0)
 const todayMessage = computed<string>(() => {
-  if (haveNoItem.value) return `아직 <span class="font-bold">작업</span>을 등록하지 않았어요.`
-  if (notDoneList.value.length > 0) return `${notDoneList.value.length} 개 의 <span class="font-bold text-gray-700">작업</span>이 남았어요!`
-  return `아주 훌륭한 <span class="text-indigo-500 font-bold">하루</span>를 보내시군요 🥰`
+  if (haveNoItem.value) return `you haven't registered the <span class="font-bold">any task</span> yet.`
+  if (notDoneList.value.length > 0) return `${notDoneList.value.length} more <span class="font-bold text-indigo-500">task</span> are left.`
+  return `You're having a <span class="text-indigo-500 font-bold">great</span> day 🥰`
 })
 
 watch(isAuthenticated, authenticated => {
@@ -78,13 +78,13 @@ watch(isAuthenticated, authenticated => {
 const events = {
   onClickSave (text: string) {
     if (text.length === 0) {
-      window.alert('메시지를 입력 해 주세요 🥲')
+      window.alert('Please enter something 🥲')
       return
     }
     todoStore.addTodo({ text, level: 0 }, user.value.userId)
   },
   onClickDelete (todo: Todo) {
-    const confirmed = window.confirm('정말로 항목을 지우실건가요? 🧐')
+    const confirmed = window.confirm('Do you want to delete this todo? 🧐')
 
     if (!confirmed) {
       return

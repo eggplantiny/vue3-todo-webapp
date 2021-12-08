@@ -1,6 +1,6 @@
 <template>
   <div class="card none-card">
-    {{ noItem ? '아직 항목이 없어요 🙂' : '모든 항목을 마쳤어요 😄'}}
+    {{ noItem ? `There's no todo yet 🙂` : `You done all todo! 😄`}}
   </div>
 </template>
 

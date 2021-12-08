@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<{
   label: '',
   type: 'text',
   modelValue: '',
-  placeholder: '입력해주세요 🙂'
+  placeholder: ''
 })
 
 const emit = defineEmits(['update:modelValue'])

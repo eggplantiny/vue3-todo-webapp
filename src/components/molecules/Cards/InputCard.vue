@@ -1,29 +1,25 @@
 <template>
-  <div class="flex justify-between">
-    <span class="font-bold text-2xl">
-      TODO
-    </span>
-    <div class="flex">
-      <label class="inline-flex items-center mr-2">
-        <input
-          v-model="checked"
-          type="checkbox"
-          class="form-checkbox"
-          checked
-        />
-        <span class="ml-2">모든 항목 보기</span>
-      </label>
-      <Button
-        class="bg-indigo-500 hover:bg-indigo-700"
-        @click="save"
-      >
-        저장
-      </Button>
-    </div>
+  <div class="flex justify-end">
+    <label class="inline-flex items-center mr-2">
+      <input
+        v-model="checked"
+        type="checkbox"
+        class="form-checkbox"
+        checked
+      />
+      <span class="ml-2">Show All</span>
+    </label>
+    <Button
+      class="bg-indigo-500 hover:bg-indigo-700"
+      @click="save"
+    >
+      Save
+    </Button>
   </div>
   <div class="mt-2 w-full">
     <Input
       v-model="text"
+      placeholder="Enter somethings..."
       @keydown.enter.prevent="save"
     />
   </div>
