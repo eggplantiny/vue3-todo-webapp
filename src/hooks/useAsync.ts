@@ -1,3 +1,4 @@
+import { useDialog } from '@/store/useDialog'
 import { useLoading } from '@/store/useLoading'
 
 interface Options {
@@ -12,6 +13,7 @@ export default async function useAsync <T> (
   asyncFunction: () => Promise<T>,
   options: Partial<Options> = {}
 ): Promise<T> {
+  const { showDialog } = useDialog()
   const { useAlert } = { ...defaultOptions, ...options }
   const { setLoading } = useLoading()
 
@@ -27,7 +29,7 @@ export default async function useAsync <T> (
     }
 
     if (useAlert) {
-      window.alert(message)
+      showDialog(message, 'Error')
     }
     throw e
   } finally {

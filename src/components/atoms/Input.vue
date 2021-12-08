@@ -12,7 +12,6 @@
 
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
-import { PropType } from 'vue'
 
 const props = withDefaults(defineProps<{
   label?: string,

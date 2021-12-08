@@ -50,9 +50,11 @@ import ListItem from '@/components/atoms/ListItem.vue'
 import TodoCard from '@/components/molecules/Cards/TodoCard.vue'
 import InputCard from '@/components/molecules/Cards/InputCard.vue'
 import NoneCard from '@/components/molecules/Cards/NoneCard.vue'
+import { useDialog } from '@/store/useDialog'
 
 const authStore = useAuthStore()
 const todoStore = useTodoStore()
+const { showDialog, showConfirm } = useDialog()
 const { value: clock } = useClock()
 
 const checked = ref(false)
@@ -78,19 +80,15 @@ watch(isAuthenticated, authenticated => {
 const events = {
   onClickSave (text: string) {
     if (text.length === 0) {
-      window.alert('Please enter something 🥲')
+      showDialog('Please enter something 🥲')
       return
     }
     todoStore.addTodo({ text, level: 0 }, user.value.userId)
   },
   onClickDelete (todo: Todo) {
-    const confirmed = window.confirm('Do you want to delete this todo? 🧐')
-
-    if (!confirmed) {
-      return
-    }
-
-    todoStore.removeTodo(todo, user.value.userId)
+    showConfirm('Do you want to delete this todo? 🧐', (confirmed: boolean) => {
+      confirmed && todoStore.removeTodo(todo, user.value.userId)
+    }, 'Delete Todo')
   },
   onClickToggle (todo: Todo) {
     todoStore.modifyTodo({ ...todo, done: !todo.done }, user.value.userId)
