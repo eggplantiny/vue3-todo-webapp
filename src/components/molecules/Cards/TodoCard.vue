@@ -10,7 +10,7 @@
     >
       {{ todo.text }}
     </p>
-    <div class="text-sm text-right text-gray-500 group-hover:text-white">
+    <div class="text-sm text-right text-gray-500">
       {{ createdAt }}
     </div>
     <div class="flex justify-end mt-4">

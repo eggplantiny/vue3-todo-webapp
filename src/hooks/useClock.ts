@@ -21,7 +21,5 @@ export function useClock (format: string = 'MMMM D dddd hh:mm') {
     pausable?.pause()
   })
 
-  return {
-    value
-  }
+  return value
 }

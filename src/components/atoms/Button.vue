@@ -11,7 +11,6 @@
 <script lang="ts" setup>
 import { computed, PropType } from 'vue'
 import { generateBoxSize } from '@/utils/cssUtils'
-import { Nullable } from '@/types/base'
 
 const props = defineProps<{
   width?: number,

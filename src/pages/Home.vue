@@ -40,27 +40,27 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch, ref } from 'vue'
+import { computed, watch, ref, onBeforeMount } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/store/auth'
 import { useTodoStore, Todo } from '@/store/todo'
 import { useClock } from '@/hooks/useClock'
+import { useDialog } from '@/store/useDialog'
 
 import List from '@/components/atoms/List.vue'
 import ListItem from '@/components/atoms/ListItem.vue'
 import TodoCard from '@/components/molecules/Cards/TodoCard.vue'
 import InputCard from '@/components/molecules/Cards/InputCard.vue'
 import NoneCard from '@/components/molecules/Cards/NoneCard.vue'
-import { useDialog } from '@/store/useDialog'
 
 const authStore = useAuthStore()
 const todoStore = useTodoStore()
 const { showDialog, showConfirm } = useDialog()
-const { value: clock } = useClock()
+const clock = useClock()
 
 const checked = ref(false)
 
-const user = computed(() => authStore.user)
-const isAuthenticated = computed(() => authStore.isAuthenticated)
+const { user, isAuthenticated } = storeToRefs(authStore)
 
 const todoList = computed<Todo[]>(() => checked.value ? todoStore.getAllList : todoStore.getNotDoneList)
 const notDoneList = computed<Todo[]>(() => todoStore.getNotDoneList)
@@ -69,6 +69,12 @@ const todayMessage = computed<string>(() => {
   if (haveNoItem.value) return `you haven't registered the <span class="font-bold">any task</span> yet.`
   if (notDoneList.value.length > 0) return `${notDoneList.value.length} more <span class="font-bold text-indigo-500">task</span> ${notDoneList.value.length > 1 ? 'are' : 'is'} left.`
   return `You're having a <span class="text-indigo-500 font-bold">great</span> day 🥰`
+})
+
+onBeforeMount(() => {
+  if (isAuthenticated.value) {
+    todoStore.fetchTodo(user.value.userId)
+  }
 })
 
 watch(isAuthenticated, authenticated => {

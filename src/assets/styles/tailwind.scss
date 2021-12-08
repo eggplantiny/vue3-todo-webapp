@@ -28,18 +28,12 @@
 }
 
 .card {
-  @apply w-full group px-4 py-4 rounded transition-all hover:text-white hover:shadow;
+  @apply w-full group px-4 py-4 rounded transition-all hover:text-indigo-800 hover:shadow;
 }
 
 // card
 .todo-card {
-  @apply hover:bg-blue-800;
-
-  &.done {
-   @apply hover:bg-green-800;
-  }
 }
 
 .none-card {
-  @apply hover:bg-indigo-500 text-black text-center;
 }
