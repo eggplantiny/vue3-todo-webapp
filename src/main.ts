@@ -6,6 +6,8 @@ import { createRippleDirective } from 'vue-create-ripple'
 
 import App from './App.vue'
 
+import '@/plugins/firebase'
+
 import '@/assets/styles/tailwind.scss'
 import '@/assets/styles/main.scss'
 

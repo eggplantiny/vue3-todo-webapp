@@ -4,25 +4,9 @@
       <p>
         <span class="font-bold text-indigo-500">{{ user.nickName }}</span>님
       </p>
-      <p>
-        안녕하세요 😊
-      </p>
-      <p>
-        {{ clock }} 현재
-      </p>
-      <p>
-        <template v-if="!haveNoItem">
-          <template v-if="notDoneList.length > 0">
-            {{ notDoneList.length }} 개 의 <span class="font-bold text-gray-700">작업</span>이 남았어요!
-          </template>
-          <template v-else>
-            아주 훌륭한 <span class="text-indigo-500 font-bold">하루</span>를 보내시군요 🥰
-          </template>
-        </template>
-        <template v-else>
-          아직 <span class="font-bold">작업</span>을 등록하지 않았어요.
-        </template>
-      </p>
+      <p>안녕하세요 😊</p>
+      <p>{{ clock }} 현재</p>
+      <p v-html="todayMessage" />
     </div>
   </section>
   <section class="px-4 mt-4">
@@ -74,6 +58,11 @@ const user = computed(() => authStore.user)
 const todoList = computed<Todo[]>(() => checked.value ? todoStore.getAllList : todoStore.getNotDoneList)
 const notDoneList = computed<Todo[]>(() => todoStore.getNotDoneList)
 const haveNoItem = computed<boolean>(() => todoStore.getAllList.length === 0)
+const todayMessage = computed<string>(() => {
+  if (haveNoItem.value) return `아직 <span class="font-bold">작업</span>을 등록하지 않았어요.`
+  if (notDoneList.value.length > 0) return `${notDoneList.value.length} 개 의 <span class="font-bold text-gray-700">작업</span>이 남았어요!`
+  return `아주 훌륭한 <span class="text-indigo-500 font-bold">하루</span>를 보내시군요 🥰`
+})
 
 onBeforeMount(() => {
   todoStore.fetchTodo()
