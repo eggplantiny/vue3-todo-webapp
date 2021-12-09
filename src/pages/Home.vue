@@ -74,8 +74,8 @@ const todoList = computed<Todo[]>(() => checked.value ? todoStore.getAllList : t
 const notDoneList = computed<Todo[]>(() => todoStore.getNotDoneList)
 const haveNoItem = computed<boolean>(() => todoStore.getAllList.length === 0)
 const todayMessage = computed<string>(() => {
-  if (haveNoItem.value) return `you haven't registered the <span class="font-bold">any task</span> yet.`
-  if (notDoneList.value.length > 0) return `${notDoneList.value.length} more <span class="font-bold text-indigo-500">task</span> ${notDoneList.value.length > 1 ? 'are' : 'is'} left.`
+  if (haveNoItem.value) return `you haven't registered <span class="font-bold">any task</span> yet.`
+  if (notDoneList.value.length > 0) return `${notDoneList.value.length} more <span class="font-bold text-indigo-500">task${notDoneList.value.length > 1 ? 's' : ''}</span> ${notDoneList.value.length > 1 ? 'are' : 'is'} left.`
   return `You're having a <span class="text-indigo-500 font-bold">great</span> day 🥰`
 })
 
