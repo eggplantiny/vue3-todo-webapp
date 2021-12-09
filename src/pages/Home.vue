@@ -1,22 +1,22 @@
 <template>
   <main v-show="initiated">
     <section class="px-4">
-      <div class="text-2xl" ref="t1">
-        <p>
+      <div class="text-2xl">
+        <p ref="t1">
           Hello
         </p>
-        <p><span class="font-bold text-indigo-500">{{ user?.nickName }}</span> 😊</p>
-        <p>{{ clock }}</p>
-        <p v-html="todayMessage" ref="t2"/>
+        <p ref="t2"><span class="font-bold text-indigo-500">{{ user?.nickName }}</span> 😊</p>
+        <p ref="t3">{{ clock }}</p>
+        <p v-html="todayMessage" ref="t4"/>
       </div>
     </section>
-    <section class="px-4 mt-4" ref="t3">
+    <section class="px-4 mt-4" ref="t5">
       <InputCard
         v-model:show-all="checked"
         @save="events.onClickSave"
       />
     </section>
-    <section class="px-4 mt-4" ref="t4">
+    <section class="px-4 mt-4" ref="t6">
       <List>
         <template v-for="item in todoList" :key="item.id">
           <ListItem>
@@ -63,8 +63,10 @@ const t1 = ref()
 const t2 = ref()
 const t3 = ref()
 const t4 = ref()
+const t5 = ref()
+const t6 = ref()
 
-const { start, reset, initiated } = useFadeInOut([t1, t2, t3, t4], { milliseconds: 333 })
+const { start, initiated } = useFadeInOut([t1, t2, t3, t4, t5, t6], { milliseconds: 450 })
 
 const { user, isAuthenticated } = storeToRefs(authStore)
 
