@@ -1,5 +1,5 @@
 <template>
-  <main v-show="initiated">
+  <main v-show="initiated && isAuthenticated">
     <section class="px-4">
       <div class="text-2xl">
         <p ref="t1">
