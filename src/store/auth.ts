@@ -27,9 +27,10 @@ export const useAuthStore = defineStore('auth', () => {
   const provider = ref<Nullable<Provider>>(null)
   const isAuthenticated = computed<boolean>(() => userRef.value !== null)
 
-  function saveUserToStore (user: Nullable<KakaoUser | User>, providedBy: Provider) {
+  function saveUserToStore (user: Nullable<KakaoUser | User>, providedBy?: Provider) {
     if (!user) {
       userRef.value = null
+      return
     }
 
     if (providedBy === 'Kakao') {
@@ -52,7 +53,9 @@ export const useAuthStore = defineStore('auth', () => {
       }
     }
 
-    provider.value = providedBy
+    if (providedBy) {
+      provider.value = providedBy
+    }
   }
 
   async function loginWithFirebase (provider: AuthProvider, providedBy: Provider) {
@@ -83,7 +86,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout () {
-    saveUserToStore(null, 'Kakao')
+    saveUserToStore(null)
     await getAuth().signOut()
     localStorage.clear()
   }
@@ -94,7 +97,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       onAuthStateChanged(auth, (user) => {
         if (user) saveUserToStore(user, providedBy)
-        resolve(!!user)
+        resolve(user !== null)
       })
     }))
   }

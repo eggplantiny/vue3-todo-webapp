@@ -55,6 +55,7 @@ function useClassNameTransition (
   const { milliseconds, once, useStartDelay }: Options = { ...defaultOptions, ...options }
   let trigger: Nullable<Generator> = null
   const isStartedRef = ref(false)
+  const initiated = ref(false)
 
   async function watchFunction (isStarted: boolean) {
     if (isStarted && trigger) {
@@ -77,6 +78,7 @@ function useClassNameTransition (
   }
 
   function start () {
+    initiated.value = true
     isStartedRef.value = true
   }
 
@@ -93,6 +95,7 @@ function useClassNameTransition (
   })
 
   return {
+    initiated,
     start,
     reset
   }

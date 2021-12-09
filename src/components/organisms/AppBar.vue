@@ -3,7 +3,7 @@
     <div class="text-2xl font-bold flex items-center">
       {{ title }}
     </div>
-    <template v-if="isAuthenticated">
+    <template v-if="user">
       <button
         v-ripple
         type="button"
@@ -13,7 +13,7 @@
         <img
           class="rounded-full shadow-lg"
           alt="profile image"
-          :src="user.thumbnailImage"
+          :src="user?.thumbnailImage"
         />
       </button>
     </template>

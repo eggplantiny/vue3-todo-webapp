@@ -7,8 +7,8 @@
     >
       <div class="flex items-center justify-center space-x-2 animate-bounce">
         <div class="w-4 h-4 bg-blue-400 rounded-full"></div>
-        <div class="w-4 h-4 bg-green-400 rounded-full"></div>
-        <div class="w-4 h-4 bg-black rounded-full"></div>
+        <div class="w-4 h-4 bg-green-400 rounded-full delay-300"></div>
+        <div class="w-4 h-4 bg-black rounded-full delay-700"></div>
       </div>
     </div>
   </transition>

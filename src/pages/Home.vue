@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main v-show="initiated">
     <section class="px-4">
       <div class="text-2xl" ref="t1">
         <p>
@@ -64,7 +64,7 @@ const t2 = ref()
 const t3 = ref()
 const t4 = ref()
 
-const { start, reset } = useFadeInOut([t1, t2, t3, t4], { milliseconds: 333 })
+const { start, reset, initiated } = useFadeInOut([t1, t2, t3, t4], { milliseconds: 333 })
 
 const { user, isAuthenticated } = storeToRefs(authStore)
 
@@ -87,11 +87,9 @@ watch(isAuthenticated, async authenticated => {
 })
 
 const events = {
-  async onClickSave (text: string) {
+  onClickSave (text: string) {
     if (text.length === 0) {
       showDialog('Please enter something 🥲')
-      reset()
-      start()
       return
     }
     todoStore.addTodo({ text, level: 0 }, user.value?.userId)
