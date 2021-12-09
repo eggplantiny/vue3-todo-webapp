@@ -8,27 +8,10 @@ const pwaOptions: Partial<VitePWAOptions> = {
   base: '/',
   includeAssets: ['icon.png'],
   manifest: {
-    name: 'PWA Router',
-    short_name: 'PWA Router',
+    name: 'Vue3 Todo',
+    short_name: 'TODO',
     theme_color: '#ffffff',
-    icons: [
-      {
-        src: 'pwa-192x192.png', // <== don't add slash, for testing
-        sizes: '192x192',
-        type: 'image/png',
-      },
-      {
-        src: '/pwa-512x512.png', // <== don't remove slash, for testing
-        sizes: '512x512',
-        type: 'image/png',
-      },
-      {
-        src: 'pwa-512x512.png', // <== don't add slash, for testing
-        sizes: '512x512',
-        type: 'image/png',
-        purpose: 'any maskable',
-      },
-    ],
+    icons: [],
   },
 }
 
