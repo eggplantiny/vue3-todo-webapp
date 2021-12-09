@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid"
 import { defineStore } from "pinia"
 import { fetchData, saveData } from '@/utils/api'
+import useAsync from '@/hooks/useAsync'
 
 export interface Todo {
   text: string;
@@ -26,7 +27,7 @@ export const useTodoStore = defineStore('todo', {
       const todo: Todo = { ...params, id, createdAt, done }
 
       this.todoList.push(todo)
-      await saveData(this.todoList, userId)
+      await useAsync(() => saveData(this.todoList, userId))
     },
     async removeTodo (todo: Todo, userId?: string) {
       const index = this.todoList.findIndex(x => x.id === todo.id)
@@ -36,7 +37,7 @@ export const useTodoStore = defineStore('todo', {
       }
 
       this.todoList.splice(index, 1)
-      await saveData(this.todoList, userId)
+      await useAsync(() => saveData(this.todoList, userId))
     },
     async modifyTodo (todo: Todo, userId?: string) {
       const index = this.todoList.findIndex(x => x.id === todo.id)
@@ -46,11 +47,10 @@ export const useTodoStore = defineStore('todo', {
       }
 
       this.todoList.splice(index, 1, todo)
-      await saveData(this.todoList, userId)
+      await useAsync(() => saveData(this.todoList, userId))
     },
     async fetchTodo (userId?: string) {
-      const targetData = await fetchData(userId)
-      this.todoList = targetData
+      this.todoList = await useAsync(() => fetchData(userId))
     }
   },
   getters: {

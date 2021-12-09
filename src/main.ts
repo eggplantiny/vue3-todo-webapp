@@ -11,7 +11,7 @@ import '@/plugins/firebase'
 import '@/assets/styles/tailwind.scss'
 import '@/assets/styles/main.scss'
 
-createApp(App)
+const app = createApp(App)
   .directive('ripple',
     createRippleDirective({
       class: 'bg-black opacity-30'

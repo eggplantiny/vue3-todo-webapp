@@ -1,12 +1,19 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useKakao } from 'vue3-kakao-sdk'
 import { KakaoUser } from '@/types/kakao'
 import { Provider } from '@/types/auth'
 import { Nullable } from '@/types/base'
-import { AuthProvider, browserSessionPersistence, User, getAuth, signInWithPopup } from 'firebase/auth'
+import {
+  AuthProvider,
+  browserSessionPersistence,
+  User,
+  getAuth,
+  signInWithPopup,
+  onAuthStateChanged
+} from 'firebase/auth'
 import useAsync from '@/hooks/useAsync'
-import { useRouter } from 'vue-router'
+import delay from '@/utils/delay'
 
 export interface IUser {
   nickName?: string;
@@ -16,31 +23,35 @@ export interface IUser {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<IUser>({
-    nickName: '',
-    profileImage: '',
-    thumbnailImage: '',
-    userId: ''
-  })
-
-  const isAuthenticated = ref(false)
+  const userRef = ref<Nullable<IUser>>(null)
   const provider = ref<Nullable<Provider>>(null)
+  const isAuthenticated = computed<boolean>(() => userRef.value !== null)
 
-  function saveUserToStore (_user: KakaoUser | User, providedBy: Provider) {
-    if (providedBy === 'Kakao') {
-      _user = _user as KakaoUser
-      user.value.nickName = _user.nickname ?? ''
-      user.value.profileImage = _user.profile_image ?? ''
-      user.value.thumbnailImage = _user.thumbnail_image ?? ''
-    } else {
-      _user = _user as User
-      user.value.userId = _user.uid
-      user.value.profileImage = _user.photoURL ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbADKB5OER8mK9MCrkCBFJeXc2pZCGucLNxA&usqp=CAU'
-      user.value.thumbnailImage = _user.photoURL ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbADKB5OER8mK9MCrkCBFJeXc2pZCGucLNxA&usqp=CAU'
-      user.value.nickName = _user.displayName ?? 'Anonymous'
+  function saveUserToStore (user: Nullable<KakaoUser | User>, providedBy: Provider) {
+    if (!user) {
+      userRef.value = null
     }
 
-    isAuthenticated.value = true
+    if (providedBy === 'Kakao') {
+      user = user as KakaoUser
+
+      userRef.value = {
+        nickName: user.nickname,
+        profileImage: user.profile_image,
+        thumbnailImage: user.thumbnail_image,
+      }
+
+    } else {
+      user = user as User
+
+      userRef.value = {
+        userId: user.uid,
+        profileImage: user.photoURL ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbADKB5OER8mK9MCrkCBFJeXc2pZCGucLNxA&usqp=CAU',
+        thumbnailImage: user.photoURL ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbADKB5OER8mK9MCrkCBFJeXc2pZCGucLNxA&usqp=CAU',
+        nickName: user.displayName ?? 'Anonymous',
+      }
+    }
+
     provider.value = providedBy
   }
 
@@ -72,17 +83,39 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout () {
-    saveUserToStore({} as KakaoUser, 'Kakao')
+    saveUserToStore(null, 'Kakao')
     await getAuth().signOut()
     localStorage.clear()
   }
 
+  function getPersistenceFirebaseUser (providedBy: Provider): Promise<boolean> {
+    return useAsync(() => new Promise(resolve => {
+      const auth = getAuth()
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) saveUserToStore(user, providedBy)
+        resolve(!!user)
+      })
+    }))
+  }
+
+  async function getPersistenceKakaoUser () {
+    return useAsync(async () => {
+      await fetchKakaoUser()
+      await delay(1200)
+      return true
+    } , {
+      useAlert: false
+    })
+  }
+
   return {
-    user,
+    user: userRef,
     provider,
     isAuthenticated,
+    getPersistenceFirebaseUser,
+    getPersistenceKakaoUser,
     logout,
-    saveUserToStore,
     fetchKakaoUser,
     loginWithFirebase
   }

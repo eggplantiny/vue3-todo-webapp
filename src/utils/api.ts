@@ -1,7 +1,6 @@
 import { Todo } from '@/store/todo'
 import { collection, doc, getDoc, getFirestore, setDoc, Timestamp } from 'firebase/firestore'
 import useStorage from '@/hooks/useStorage'
-import useAsync from '@/hooks/useAsync'
 import delay from '@/utils/delay'
 
 const localStorage = useStorage().localStorage
@@ -25,7 +24,7 @@ async function saveDataOnFirestore (todoList: Todo[], userId: string): Promise<v
 }
 
 async function fetchDataOnLocalStorage () {
-  await useAsync(() => delay(250))
+  await delay(250)
   return localStorage.getItem<Todo[]>('todo') ?? []
 }
 
@@ -43,7 +42,7 @@ export function fetchData (userId?: string): Promise<Todo[]> {
     fetchFunction = fetchDataOnLocalStorage()
   }
 
-  return useAsync(() => fetchFunction)
+  return fetchFunction
 }
 
 export function saveData (todoList: Todo[], userId?: string): Promise<void> {
@@ -55,5 +54,5 @@ export function saveData (todoList: Todo[], userId?: string): Promise<void> {
     saveFunction = saveDataOnLocalStorage(todoList)
   }
 
-  return useAsync(() => saveFunction)
+  return saveFunction
 }

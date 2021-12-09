@@ -1,48 +1,22 @@
 import { useRouter } from 'vue-router'
 import { useKakao } from 'vue3-kakao-sdk'
 import { onBeforeMount } from 'vue'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useAuthStore } from '@/store/auth'
 import { useLoading } from '@/store/useLoading'
 import { Provider } from '@/types/auth'
-import delay from '@/utils/delay'
 import useStorage from '@/hooks/useStorage'
-import useAsync from '@/hooks/useAsync'
 
 const kakaoAccessToken = localStorage.getItem('KAKAO_ACCESS_TOKEN')
 
 export default function useAuth() {
   const router = useRouter()
-  const authStore = useAuthStore()
+  const { getPersistenceFirebaseUser, getPersistenceKakaoUser, isAuthenticated } = useAuthStore()
   const { localStorage } = useStorage()
   const { kakao, initialize } = useKakao()
   const { value } = useLoading()
 
-  function getPersistenceFirebaseUser (providedBy: Provider): Promise<boolean> {
-    return new Promise(resolve => {
-      const auth = getAuth()
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          authStore.saveUserToStore(user, providedBy)
-          resolve(true)
-        }
-        resolve(false)
-      })
-    })
-  }
-
-  async function getPersistenceKakaoUser () {
-    await initialize()
-    if (kakaoAccessToken && kakaoAccessToken.length > 0) {
-      kakao.value.Auth.setAccessToken(kakaoAccessToken)
-    }
-
-    await authStore.fetchKakaoUser()
-    await delay(1200)
-  }
-
   onBeforeMount(async () => {
-    if (authStore.isAuthenticated) {
+    if (isAuthenticated) {
       return
     }
 
@@ -50,10 +24,14 @@ export default function useAuth() {
     let success = false
     try {
       if (providedBy === 'Kakao') {
-        await useAsync(() => getPersistenceKakaoUser(), { useAlert: false })
-        success = true
+        await initialize()
+        if (kakaoAccessToken && kakaoAccessToken.length > 0) {
+          kakao.value.Auth.setAccessToken(kakaoAccessToken)
+        }
+
+        success = await getPersistenceKakaoUser()
       } else if (providedBy === 'Google' || providedBy === 'Github') {
-        success = await useAsync(() => getPersistenceFirebaseUser(providedBy), { useAlert: false })
+        success = await getPersistenceFirebaseUser(providedBy)
       }
 
       if (!success) {
