@@ -15,8 +15,8 @@
           @click.prevent.stop="events.onClickToggleDarkMode"
         >
           <transition mode="out-in" name="fade">
-            <MoonIcon class="dark:text-white bg-transparent transition-colors" v-if="isDarkMode" />
-            <SunIcon class="dark:text-white bg-transparent transition-colors" v-else />
+            <MoonIcon v-if="isDarkMode" class="dark:text-white bg-transparent transition-colors" />
+            <SunIcon v-else class="dark:text-white bg-transparent transition-colors" />
           </transition>
         </button>
         <button
@@ -42,7 +42,10 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
 import { useDialog } from '@/store/useDialog'
 import { useDark, useToggle } from '@vueuse/core'
-import { MoonIcon, SunIcon } from '@heroicons/vue/outline'
+import { MoonIcon as MoonIconRenderFn, SunIcon as SunIconRenderFn } from '@heroicons/vue/outline'
+
+const MoonIcon = MoonIconRenderFn()
+const SunIcon = SunIconRenderFn()
 
 const props = defineProps<{
   isScrolled: boolean
