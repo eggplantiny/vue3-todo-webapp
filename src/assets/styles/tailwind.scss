@@ -38,3 +38,15 @@
 .none-card {
   @apply text-center;
 }
+
+p, label {
+  @apply text-black dark:text-gray-50 transition-colors;
+}
+
+span.emphasis {
+  @apply font-bold text-indigo-500 dark:text-indigo-300 transition-colors;
+}
+
+.bg-container {
+  @apply dark:bg-gray-800 bg-white;
+}

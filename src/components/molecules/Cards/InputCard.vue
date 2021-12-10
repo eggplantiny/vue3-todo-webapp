@@ -4,7 +4,7 @@
       <input
         v-model="checked"
         type="checkbox"
-        class="form-checkbox"
+        class=""
         checked
       />
       <span class="ml-2">Show All</span>

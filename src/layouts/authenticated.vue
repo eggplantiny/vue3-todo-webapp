@@ -1,11 +1,8 @@
 <template>
   <template v-if="!loading">
-    <div class="relative">
-      <app-bar
-        class="sticky mx-auto max-w-xl top-0 left-0 right-0 bg-white z-10 transition-shadow"
-        :class="isScrolled ? 'shadow-lg' : ''"
-      />
-      <main class="mx-auto max-w-xl">
+    <div class="relative w-full h-full">
+      <AppBar :isScrolled="isScrolled" />
+      <main class="mx-auto max-w-xl w-full h-full">
         <router-view />
       </main>
     </div>
@@ -13,12 +10,12 @@
 </template>
 
 <script lang="ts" setup>
-import useAuth from '@/hooks/useAuth'
 import AppBar from '@/components/organisms/AppBar.vue'
+import useAuth from '@/hooks/useAuth'
 import useScrollObserver from '@/hooks/useScrollObserver'
 
 const { loading } = useAuth()
-const { isScrolled } = useScrollObserver()
+const { isScrolled } = useScrollObserver(10)
 </script>
 
 <style scoped lang="scss">

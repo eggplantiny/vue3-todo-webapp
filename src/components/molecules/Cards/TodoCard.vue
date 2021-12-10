@@ -9,9 +9,9 @@
     >
       {{ todo.text }}
     </p>
-    <div class="text-sm text-right text-gray-500">
+    <p class="text-sm text-right text-gray-500">
       {{ createdAt }}
-    </div>
+    </p>
     <div class="flex justify-end mt-4">
       <Button
         class="btn-error mr-2"

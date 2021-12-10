@@ -19,11 +19,11 @@
             leave-to="opacity-0 scale-95"
           >
             <div
-              class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
+              class="dark:text-gray-50 bg-container inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
             >
               <DialogTitle
                 as="h3"
-                class="text-lg font-medium leading-6 text-gray-900"
+                class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-50"
               >
                 {{ title }}
               </DialogTitle>

@@ -3,7 +3,7 @@
     <div
       v-show="value === true"
       class="w-screen h-screen fixed top-0 left-0 flex justify-center items-center z-50"
-      :class="computedClass"
+      :class="[computedClass]"
     >
       <div class="flex items-center justify-center space-x-2 animate-bounce">
         <div class="w-4 h-4 bg-blue-400 rounded-full"></div>
@@ -21,7 +21,7 @@ import { computed } from 'vue'
 const loading = useLoading()
 
 const value = computed(() => loading.value)
-const computedClass = computed(() => [loading.transparent ? 'bg-transparent' : 'bg-white'])
+const computedClass = computed(() => [loading.transparent ? 'bg-transparent' : 'bg-transparent'])
 </script>
 
 <style scoped lang="scss">

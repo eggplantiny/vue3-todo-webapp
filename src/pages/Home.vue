@@ -5,7 +5,7 @@
         <p ref="t1">
           Hello
         </p>
-        <p ref="t2"><span class="font-bold text-indigo-500">{{ user?.nickName }}</span> 😊</p>
+        <p ref="t2"><span class="emphasis">{{ user?.nickName }}</span> 😊</p>
         <p ref="t3">{{ clock }}</p>
         <p v-html="todayMessage" ref="t4"/>
       </div>
@@ -42,6 +42,7 @@ import { computed, watch, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useClock } from '@/hooks/useClock'
 import { useFadeInOut } from '@/hooks/styles/useTransitions'
+import { useTemplateRefsWrap } from '@/hooks/useTemplateRef'
 import { useAuthStore } from '@/store/auth'
 import { useTodoStore, Todo } from '@/store/todo'
 import { useDialog } from '@/store/useDialog'
@@ -51,7 +52,6 @@ import ListItem from '@/components/atoms/ListItem.vue'
 import TodoCard from '@/components/molecules/Cards/TodoCard.vue'
 import InputCard from '@/components/molecules/Cards/InputCard.vue'
 import NoneCard from '@/components/molecules/Cards/NoneCard.vue'
-import { useTemplateRefsWrap } from '@/hooks/useTemplateRef'
 
 const authStore = useAuthStore()
 const todoStore = useTodoStore()
@@ -61,6 +61,9 @@ const clock = useClock()
 const checked = ref(false)
 
 const { t1, t2, t3, t4, t5, t6, t7 } = useTemplateRefsWrap<HTMLElement>()(['t1', 't2', 't3', 't4', 't5', 't6', 't7'])
+const useTempRefs = useTemplateRefsWrap<HTMLElement>()
+const asd = useTempRefs(['a1', 'a2', 'a3'])
+
 const { start, initiated } = useFadeInOut([t1, t2, t3, t4, t5, t6, t7], { milliseconds: 450 })
 
 const { user, isAuthenticated } = storeToRefs(authStore)
@@ -70,8 +73,8 @@ const notDoneList = computed<Todo[]>(() => todoStore.getNotDoneList)
 const haveNoItem = computed<boolean>(() => todoStore.getAllList.length === 0)
 const todayMessage = computed<string>(() => {
   if (haveNoItem.value) return `you haven't registered <span class="font-bold">any task</span> yet.`
-  if (notDoneList.value.length > 0) return `${notDoneList.value.length} more <span class="font-bold text-indigo-500">task${notDoneList.value.length > 1 ? 's' : ''}</span> ${notDoneList.value.length > 1 ? 'are' : 'is'} left.`
-  return `You're having a <span class="text-indigo-500 font-bold">great</span> day 🥰`
+  if (notDoneList.value.length > 0) return `${notDoneList.value.length} more <span class="emphasis">task${notDoneList.value.length > 1 ? 's' : ''}</span> ${notDoneList.value.length > 1 ? 'are' : 'is'} left.`
+  return `You're having a <span class="emphasis">great</span> day 🥰`
 })
 
 watch(isAuthenticated, async authenticated => {

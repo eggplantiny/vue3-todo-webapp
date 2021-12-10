@@ -1,8 +1,8 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template>
   <div class="container h-screen flex justify-center items-center">
-    <div class="p-8 bg-white max-w-6xl">
-      <h1 class="font-bold text-indigo-800 text-3xl text-center mb-8">Login</h1>
-      <h2 class="font-bold text-2xl text-center mb-8">Vue3 Todo App</h2>
+    <div class="p-8 max-w-6xl">
+      <h1 class="font-bold text-indigo-800 dark:text-indigo-200 text-3xl text-center mb-8">Login</h1>
+      <h2 class="font-bold text-2xl text-center dark:text-gray-50 mb-8">Vue3 Todo App</h2>
       <button type="button" ref="btnRef" />
       <List>
         <template v-for="(provider, index) in loginProviderList" :key="index">
