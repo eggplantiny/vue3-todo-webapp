@@ -63,8 +63,6 @@ const props = defineProps({
 
 const emits = defineEmits(['delete', 'toggle'])
 
-emits('delete')
-
 const createdAt = computed(() => dateString(props.todo?.createdAt ?? ''))
 </script>
 
