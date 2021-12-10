@@ -62,6 +62,8 @@ const checked = ref(false)
 
 const { t1, t2, t3, t4, t5, t6, t7 } = useTemplateRefsWrap<HTMLElement>()(['t1', 't2', 't3', 't4', 't5', 't6', 't7'])
 
+const zxc = useTemplateRefs<HTMLElement>(['hello', 'world'])
+
 const { start, initiated } = useFadeInOut([t1, t2, t3, t4, t5, t6, t7], { milliseconds: 450 })
 
 const { user, isAuthenticated } = storeToRefs(authStore)
