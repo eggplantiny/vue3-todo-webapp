@@ -28,7 +28,7 @@
 }
 
 .card {
-  @apply w-full group px-4 py-4 rounded transition-all hover:text-indigo-800 hover:shadow;
+  @apply w-full group px-4 py-4 rounded;
 }
 
 // card
@@ -36,4 +36,5 @@
 }
 
 .none-card {
+  @apply text-center;
 }

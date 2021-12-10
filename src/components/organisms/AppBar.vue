@@ -1,22 +1,23 @@
 <template>
-  <header class="px-4 py-4 flex justify-between">
+  <header
+    v-if="isAuthenticated"
+    class="px-4 py-4 flex justify-between"
+  >
     <div class="text-2xl font-bold flex items-center">
       {{ title }}
     </div>
-    <template v-if="user">
-      <button
-        v-ripple
-        type="button"
-        class="w-10 h-10 rounded-full"
-        @click="events.onClickProfile"
-      >
-        <img
-          class="rounded-full shadow-lg"
-          alt="profile image"
-          :src="user?.thumbnailImage"
-        />
-      </button>
-    </template>
+    <button
+      v-ripple
+      type="button"
+      class="w-10 h-10 rounded-full"
+      @click="events.onClickProfile"
+    >
+      <img
+        class="rounded-full shadow-lg"
+        alt="profile image"
+        :src="user?.thumbnailImage"
+      />
+    </button>
   </header>
 </template>
 

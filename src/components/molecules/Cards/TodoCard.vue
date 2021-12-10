@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="todo"
     class="card todo-card"
     :class="todo.done ? 'done' : ''"
   >
@@ -31,20 +30,40 @@
 </template>
 
 <script lang="ts" setup>
-import Button from '@/components/atoms/Button.vue'
-import { computed, PropType } from 'vue'
+import { computed, PropType, SetupContext, defineComponent } from 'vue'
 import { Todo } from '@/store/todo'
-import { Nullable } from '@/types/base'
 import { dateString } from '@/utils/stringFormat'
+import Button from '@/components/atoms/Button.vue'
 
+// export default defineComponent({
+//   components: {
+//     Button
+//   },
+//   props: {
+//     todo: {
+//       type: Object as PropType<Nullable<Todo>>,
+//       default: () => null
+//     }
+//   },
+//   emits: ['delete', 'toggle'],
+//   setup (props) {
+//     const createdAt = computed(() => dateString(props.todo?.createdAt ?? ''))
+//
+//     return {
+//       createdAt
+//     }
+//   }
+// })
 const props = defineProps({
   todo: {
-    type: Object as PropType<Nullable<Todo>>,
+    type: Object as PropType<Todo>,
     default: null
   }
 })
 
 const emits = defineEmits(['delete', 'toggle'])
+
+emits('delete')
 
 const createdAt = computed(() => dateString(props.todo?.createdAt ?? ''))
 </script>

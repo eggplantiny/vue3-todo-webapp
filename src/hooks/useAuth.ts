@@ -8,7 +8,7 @@ import useStorage from '@/hooks/useStorage'
 
 const kakaoAccessToken = localStorage.getItem('KAKAO_ACCESS_TOKEN')
 
-export default function useAuth() {
+export default function useAuth () {
   const router = useRouter()
   const { getPersistenceFirebaseUser, getPersistenceKakaoUser, isAuthenticated } = useAuthStore()
   const { localStorage } = useStorage()

@@ -5,9 +5,19 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
+const props = defineProps<{
   noItem: boolean
 }>()
+// import { defineComponent } from 'vue'
+//
+// export default defineComponent({
+//   props: {
+//     noItem: {
+//       type: Boolean,
+//       required: true;
+//     }
+//   }
+// })
 </script>
 
 <style scoped>
