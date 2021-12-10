@@ -2,6 +2,7 @@ import { nanoid } from "nanoid"
 import { defineStore } from "pinia"
 import { fetchData, saveData } from '@/utils/api'
 import useAsync from '@/hooks/useAsync'
+import { stat } from 'fs'
 
 export interface Todo {
   text: string;
@@ -56,6 +57,6 @@ export const useTodoStore = defineStore('todo', {
   getters: {
     getDoneList: (state): Todo[] => state.todoList.filter(x => x.done),
     getNotDoneList: (state): Todo[] => state.todoList.filter(x => !x.done),
-    getAllList: (state): Todo[] => state.todoList
+    getAllList: (state): Todo[] => [...state.todoList.filter(x => !x.done), ...state.todoList.filter(x => x.done)]
   }
 })

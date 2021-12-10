@@ -2,7 +2,7 @@
   <template v-if="!loading">
     <div class="relative">
       <app-bar
-        class="sticky top-0 left-0 right-0 bg-white z-10 transition-shadow"
+        class="sticky mx-auto max-w-xl top-0 left-0 right-0 bg-white z-10 transition-shadow"
         :class="isScrolled ? 'shadow-lg' : ''"
       />
       <main class="mx-auto max-w-xl">

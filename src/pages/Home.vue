@@ -51,7 +51,7 @@ import ListItem from '@/components/atoms/ListItem.vue'
 import TodoCard from '@/components/molecules/Cards/TodoCard.vue'
 import InputCard from '@/components/molecules/Cards/InputCard.vue'
 import NoneCard from '@/components/molecules/Cards/NoneCard.vue'
-import { useTemplateRefs, useTemplateRefsWrap } from '@/hooks/useTemplateRef'
+import { useTemplateRefsWrap } from '@/hooks/useTemplateRef'
 
 const authStore = useAuthStore()
 const todoStore = useTodoStore()
@@ -61,9 +61,6 @@ const clock = useClock()
 const checked = ref(false)
 
 const { t1, t2, t3, t4, t5, t6, t7 } = useTemplateRefsWrap<HTMLElement>()(['t1', 't2', 't3', 't4', 't5', 't6', 't7'])
-
-const zxc = useTemplateRefs<HTMLElement>(['hello', 'world'])
-
 const { start, initiated } = useFadeInOut([t1, t2, t3, t4, t5, t6, t7], { milliseconds: 450 })
 
 const { user, isAuthenticated } = storeToRefs(authStore)
