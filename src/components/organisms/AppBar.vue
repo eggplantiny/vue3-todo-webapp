@@ -80,7 +80,7 @@ const events = {
 
 <style scoped lang="scss">
 header {
-  @apply px-4 py-4 flex justify-between sticky top-0 left-0 right-0 z-10 bg-white dark:bg-gray-800 transition-all
+  @apply px-4 py-4 flex justify-between sticky top-0 left-0 right-0 z-10 bg-white dark:bg-gray-800 transition-all outline-none border-none;
 }
 .round-btn {
   @apply w-10 h-10 rounded-full;
