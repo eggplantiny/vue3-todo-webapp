@@ -3,7 +3,7 @@
     <section class="px-4">
       <div class="text-2xl">
         <p ref="t1">
-          Hello
+          Route Test
         </p>
         <p ref="t2"><span class="emphasis">{{ user?.nickName }}</span> 😊</p>
         <p ref="t3">{{ clock }}</p>
@@ -41,10 +41,9 @@
 <script lang="ts" setup>
 import { computed, watch, ref, onMounted, toRefs, Ref, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useRouter } from 'vue-router'
 import { useClock } from '@/hooks/useClock'
 import { useFadeInOut } from '@/hooks/styles/useTransitions'
-import { useHtmlTemplateRefs, useHasHelloWorldTemplateRefs } from '@/hooks/useTemplateRefs'
+import { useHtmlTemplateRefs, useHasHelloWorldTemplateRefs, useTemplateRefsWrap } from '@/hooks/useTemplateRefs'
 import { useAuthStore } from '@/store/auth'
 import { useTodoStore } from '@/store/todo'
 import { useDialog } from '@/store/useDialog'
@@ -55,6 +54,7 @@ import ListItem from '@/components/atoms/ListItem.vue'
 import TodoCard from '@/components/molecules/Cards/TodoCard.vue'
 import InputCard from '@/components/molecules/Cards/InputCard.vue'
 import NoneCard from '@/components/molecules/Cards/NoneCard.vue'
+import { useRouter } from 'vue-router'
 import useScrollObserver from '@/hooks/useScrollObserver'
 
 const router = useRouter()
@@ -67,18 +67,9 @@ const checked = ref(false)
 
 const { helloWorld } = useHasHelloWorldTemplateRefs(['helloWorld'])
 
-const zxc = ['t1', 't2', 't3', 't4', 't5', 't6', 't7']
 const { t1, t2, t3, t4, t5, t6, t7 } = useHtmlTemplateRefs(['t1', 't2', 't3', 't4', 't5', 't6', 't7'])
-//  or can use this like this
+//  or can use this like this way.
 // const { t1, t2, t3, t4, t5, t6, t7 } = useTemplateRefsWrap<HTMLElement>()(['t1', 't2', 't3', 't4', 't5', 't6', 't7'])
-//  or list all of template refs... 😖
-// const t1 = ref<HTMLElement>()
-// const t2 = ref<HTMLElement>()
-// const t3 = ref<HTMLElement>()
-// const t4 = ref<HTMLElement>()
-// const t5 = ref<HTMLElement>()
-// const t6 = ref<HTMLElement>()
-// const t7 = ref<HTMLElement>()
 
 const { start, initiated } = useFadeInOut([t1, t2, t3, t4, t5, t6, t7], { milliseconds: 450 })
 
@@ -92,7 +83,7 @@ const todayMessage = computed<string>(() => {
   if (notDoneList.value.length > 0) return `${notDoneList.value.length} more <span class="emphasis">task${notDoneList.value.length > 1 ? 's' : ''}</span> ${notDoneList.value.length > 1 ? 'are' : 'is'} left.`
   return `You're having a <span class="emphasis">great</span> day 🥰`
 })
-//  or can use this like this.
+//  or can use this like this way.
 const computedRefs = reactive({ todoList, notDoneList, haveNoItem, todayMessage })
 
 watch(isAuthenticated, async authenticated => {
@@ -104,11 +95,12 @@ watch(isAuthenticated, async authenticated => {
   immediate: true
 })
 
-useScrollObserver({
-  callback (x, y) {
-    console.log('hello home page', { x, y })
-  }
-})
+// useScroll mount <=> unmount test example
+// useScrollObserver({
+//   callback (x, y) {
+//     console.log('hello route test page', { x, y })
+//   }
+// })
 
 const events = {
   onClickSave (text: string) {
@@ -118,7 +110,7 @@ const events = {
     }
 
     if (text === 'route-test') {
-      router.push('/route-test')
+      router.push('/')
       return
     }
 

@@ -5,24 +5,43 @@ import {
   onBeforeUnmount
 } from 'vue'
 
-export default function useScrollObserver (threshold: number = 40) {
-  const offset = ref<number>(0)
-  const isScrolled = computed<boolean>(() => offset.value > threshold)
+interface Options {
+  threshold: number;
+  callback?: (scrollX: number, scrollY: number) => void;
+}
+
+const defaultOptions: Options = {
+  threshold: 20
+}
+
+export default function useScrollObserver (options: Partial<Options> = {}) {
+  const { threshold, callback } = { ...defaultOptions, ...options }
+  const scrollXRef = ref<number>(0)
+  const scrollYRef = ref<number>(0)
+
+  const isScrolledX = computed<boolean>(() => scrollXRef.value > threshold)
+  const isScrolledY = computed<boolean>(() => scrollYRef.value > threshold)
+
+  function listener (ev: Event) {
+    const { scrollX, scrollY } = window
+    scrollXRef.value = scrollX
+    scrollYRef.value = scrollY
+
+    callback && callback(scrollY, scrollY)
+  }
 
   onBeforeMount(() => {
-    window.addEventListener('scroll', ev => {
-      offset.value = window.scrollY
-    })
+    window.addEventListener('scroll', listener)
   })
 
   onBeforeUnmount(() => {
-    window.removeEventListener('scroll', ev => {
-      offset.value = window.scrollY
-    })
+    window.removeEventListener('scroll', listener)
   })
 
   return {
-    offset,
-    isScrolled
+    scrollX: scrollXRef,
+    scrollY: scrollYRef,
+    isScrolledX,
+    isScrolledY
   }
 }

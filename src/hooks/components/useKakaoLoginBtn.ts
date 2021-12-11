@@ -21,16 +21,15 @@ export default function useKakaoLoginBtn (
 
     kakao.value.Auth.createLoginButton({
       container: btnRef.value,
-      success (params) {
+      async success (params) {
         const { access_token: accessToken } = params
 
         kakao.value.Auth.setAccessToken(accessToken)
         localStorage.setItem('KAKAO_ACCESS_TOKEN', accessToken)
         localStorage.setItem('provider', 'Kakao')
 
-        authStore.fetchKakaoUser().then((user) => {
-          router.push('/')
-        })
+        await authStore.fetchKakaoUser()
+        await router.push('/')
       },
       fail (error) {
         console.error(error)

@@ -9,7 +9,7 @@
     >
       {{ todo.text }}
     </p>
-    <p class="text-sm text-right text-gray-500">
+    <p class="text-sm text-right text-gray-500 mt-2">
       {{ createdAt }}
     </p>
     <div class="flex justify-end mt-4">
@@ -31,10 +31,11 @@
 
 <script lang="ts" setup>
 import { computed, PropType, SetupContext, defineComponent } from 'vue'
-import { Todo } from '@/store/todo'
+import { Todo } from '@/types/todo'
 import { dateString } from '@/utils/stringFormat'
 import Button from '@/components/atoms/Button.vue'
 
+// // use defineComponent
 // export default defineComponent({
 //   components: {
 //     Button

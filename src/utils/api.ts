@@ -1,4 +1,4 @@
-import { Todo } from '@/store/todo'
+import { Todo } from '@/types/todo'
 import { collection, doc, getDoc, getFirestore, setDoc, Timestamp } from 'firebase/firestore'
 import useStorage from '@/hooks/useStorage'
 import delay from '@/utils/delay'

@@ -2,15 +2,7 @@ import { nanoid } from "nanoid"
 import { defineStore } from "pinia"
 import { fetchData, saveData } from '@/utils/api'
 import useAsync from '@/hooks/useAsync'
-import { stat } from 'fs'
-
-export interface Todo {
-  text: string;
-  level: number;
-  done?: boolean;
-  createdAt?: Date;
-  id?: string;
-}
+import { Todo } from '@/types/todo'
 
 interface State {
   todoList: Todo[]

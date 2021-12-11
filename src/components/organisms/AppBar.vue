@@ -39,9 +39,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useDark, useToggle } from '@vueuse/core'
 import { useAuthStore } from '@/store/auth'
 import { useDialog } from '@/store/useDialog'
-import { useDark, useToggle } from '@vueuse/core'
 import { MoonIcon as MoonIconRenderFn, SunIcon as SunIconRenderFn } from '@heroicons/vue/outline'
 
 const MoonIcon = MoonIconRenderFn()
@@ -58,9 +58,10 @@ const router = useRouter()
 
 const title = computed(() => route.meta.title || 'Home')
 const user = computed(() => authStore.user)
+const isAuthenticated = computed(() => authStore.isAuthenticated)
+
 const isDarkMode = useDark()
 const toggleDarkMode = useToggle(isDarkMode)
-const isAuthenticated = computed(() => authStore.isAuthenticated)
 
 const events = {
   onClickProfile () {

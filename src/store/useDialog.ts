@@ -6,7 +6,7 @@ export const useDialog = defineStore('Dialog', () => {
   const value = ref<boolean>(false)
   const titleRef = ref<string>('')
   const textRef = ref<string>('')
-  const callbackRef = ref<Nullable<Function>>(null)
+  const callbackRef = ref<Nullable<(confirmed: boolean) => void>>(null)
   const isConfirm = ref<boolean>(false)
 
   async function showDialog (text: string, title?: string) {
