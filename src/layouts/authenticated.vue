@@ -15,7 +15,12 @@ import useAuth from '@/hooks/useAuth'
 import useScrollObserver from '@/hooks/useScrollObserver'
 
 const { loading } = useAuth()
-const { isScrolledY } = useScrollObserver({ threshold: 10 })
+const { isScrolledY } = useScrollObserver({
+  threshold: 10,
+  callback (x, y) {
+    console.log('hello authenticated layout!', { x, y })
+  }
+})
 </script>
 
 <style scoped lang="scss">
