@@ -11,10 +11,8 @@
 
 <script lang="ts" setup>
 import AppBar from '@/components/organisms/AppBar.vue'
-import useAuth from '@/hooks/useAuth'
 import useScrollObserver from '@/hooks/useScrollObserver'
 
-const { loading } = useAuth()
 const { isScrolledY } = useScrollObserver({
   threshold: 10,
   callback (x, y) {

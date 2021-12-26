@@ -8,6 +8,7 @@ import authenticatedLayout from '@/layouts/authenticated.vue'
 import Home from '@/pages/Home.vue'
 import RouteTest from '@/pages/RouteTest.vue'
 import Login from '@/pages/auth/Login.vue'
+import { useAuthentication } from '@/hooks/routes/auth'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -25,7 +26,8 @@ const routes: RouteRecordRaw[] = [
         component: RouteTest,
         meta: { title: 'Test Home 2'}
       }
-    ]
+    ],
+    ...useAuthentication()
   },
   {
     path: '/auth',
