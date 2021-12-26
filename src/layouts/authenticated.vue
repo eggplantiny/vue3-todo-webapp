@@ -1,12 +1,10 @@
 <template>
-  <template v-if="!loading">
-    <div class="relative w-full h-full">
-      <AppBar :isScrolled="isScrolledY" />
-      <main class="mx-auto max-w-xl w-full h-full">
-        <router-view />
-      </main>
-    </div>
-  </template>
+  <div class="relative w-full h-full">
+    <AppBar :isScrolled="isScrolledY" />
+    <main class="mx-auto max-w-xl w-full h-full">
+      <router-view />
+    </main>
+  </div>
 </template>
 
 <script lang="ts" setup>
