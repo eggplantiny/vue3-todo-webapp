@@ -41,26 +41,27 @@
 <script lang="ts" setup>
 import { computed, watch, ref, onMounted, toRefs, Ref, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 import { useClock } from '@/hooks/useClock'
 import { useFadeInOut } from '@/hooks/styles/useTransitions'
 import { useHtmlTemplateRefs, useHasHelloWorldTemplateRefs, useTemplateRefsWrap } from '@/hooks/useTemplateRefs'
 import { useAuthStore } from '@/store/auth'
 import { useTodoStore } from '@/store/todo'
-import { useDialog } from '@/store/useDialog'
 import { Todo } from '@/types/todo'
+
+import useScrollObserver from '@/hooks/useScrollObserver'
 
 import List from '@/components/atoms/List.vue'
 import ListItem from '@/components/atoms/ListItem.vue'
 import TodoCard from '@/components/molecules/Cards/TodoCard.vue'
 import InputCard from '@/components/molecules/Cards/InputCard.vue'
 import NoneCard from '@/components/molecules/Cards/NoneCard.vue'
-import { useRouter } from 'vue-router'
-import useScrollObserver from '@/hooks/useScrollObserver'
+import { useDialog } from '@/store/dialog'
 
+const dialog = useDialog()
 const router = useRouter()
 const authStore = useAuthStore()
 const todoStore = useTodoStore()
-const { showDialog, showConfirm } = useDialog()
 const clock = useClock()
 
 const checked = ref(false)
@@ -115,16 +116,18 @@ const events = {
     }
 
     if (text.length === 0) {
-      showDialog('Please enter something 🥲')
+      dialog.alert('Please enter something 🥲')
       return
     }
 
     todoStore.addTodo({ text, level: 0 }, user.value?.userId)
   },
-  onClickDelete (todo: Todo) {
-    showConfirm('Do you want to delete this todo? 🧐', (confirmed: boolean) => {
-      confirmed && todoStore.removeTodo(todo, user.value?.userId)
-    }, 'Delete Todo')
+  async onClickDelete (todo: Todo) {
+    const confirmed = await dialog.confirm('Do you want to delete this todo? 🧐', { title: 'Delete Todo' })
+
+    if (confirmed) {
+      await todoStore.removeTodo(todo, user.value?.userId)
+    }
   },
   onClickToggle (todo: Todo) {
     todoStore.modifyTodo({ ...todo, done: !todo.done }, user.value?.userId)

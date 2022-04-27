@@ -41,8 +41,8 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useDark, useToggle } from '@vueuse/core'
 import { useAuthStore } from '@/store/auth'
-import { useDialog } from '@/store/useDialog'
 import { MoonIcon as MoonIconRenderFn, SunIcon as SunIconRenderFn } from '@heroicons/vue/outline'
+import { useDialog } from '@/store/dialog'
 
 const MoonIcon = MoonIconRenderFn()
 const SunIcon = SunIconRenderFn()
@@ -51,8 +51,8 @@ const props = defineProps<{
   isScrolled: boolean
 }>()
 
+const dialog = useDialog()
 const authStore = useAuthStore()
-const { showConfirm } = useDialog()
 const route = useRoute()
 const router = useRouter()
 
@@ -64,14 +64,15 @@ const isDarkMode = useDark()
 const toggleDarkMode = useToggle(isDarkMode)
 
 const events = {
-  onClickProfile () {
-    showConfirm('Do you want logout?', async confirmed => {
-      if (!confirmed) {
-        return
-      }
-      await authStore.logout()
-      await router.push('/auth/login')
-    }, 'Logout')
+  async onClickProfile () {
+    const confirmed = await dialog.confirm('Do you wanna logout?', { title: 'Logout' })
+
+    if (!confirmed) {
+      return
+    }
+
+    await authStore.logout()
+    await router.push('/auth/login')
   },
   onClickToggleDarkMode () {
     toggleDarkMode()

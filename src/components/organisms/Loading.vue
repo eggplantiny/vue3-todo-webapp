@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useLoading } from '@/store/useLoading'
 import { computed } from 'vue'
+import { useLoading } from '@/store/loading'
 
 const loading = useLoading()
 

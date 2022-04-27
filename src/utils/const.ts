@@ -1,0 +1,1 @@
+export const DEFAULT_DIALOG_CLOSE_DELAY = 200

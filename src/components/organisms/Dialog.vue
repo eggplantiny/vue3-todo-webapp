@@ -25,11 +25,11 @@
                 as="h3"
                 class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-50"
               >
-                {{ title }}
+                {{ dialogInstance?.title }}
               </DialogTitle>
               <div class="mt-2">
                 <p class="text-sm text-gray-500">
-                  {{ text }}
+                  {{ dialogInstance?.text }}
                 </p>
               </div>
 
@@ -38,9 +38,9 @@
                   class="btn-error mr-2"
                   @click="events.onClickClose"
                 >
-                  {{ isConfirm ? 'NO' : 'Got it.' }}
+                  {{ dialogInstance?.isConfirm ? 'NO' : 'Got it.' }}
                 </Button>
-                <template v-if="isConfirm">
+                <template v-if="dialogInstance?.isConfirm">
                   <Button
                     class="btn-success"
                     @click="events.onClickConfirm"
@@ -66,22 +66,20 @@ import {
   TransitionRoot,
   TransitionChild
 } from '@headlessui/vue'
-import { useDialog } from '@/store/useDialog'
 import { storeToRefs } from 'pinia'
+import { useDialog } from '@/store/dialog'
+
 import Button from '@/components/atoms/Button.vue'
 
 const dialogStore = useDialog()
-const { closeDialog } = dialogStore
-const { value, text, title, isConfirm, callback } = storeToRefs(dialogStore)
+const { value, dialogInstance } = storeToRefs(dialogStore)
 
 const events = {
   onClickClose () {
-    callback.value && callback.value(false)
-    closeDialog()
+    dialogStore.closeDialog(false)
   },
   onClickConfirm () {
-    callback.value && callback.value(true)
-    closeDialog()
+    dialogStore.closeDialog(true)
   }
 }
 </script>
